@@ -5,7 +5,8 @@
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
 
-  <changeSet id="20250216_create_table" author="gennadiy bakulin">
+  <changeSet id="20250216_create_tables" author="gennadiy bakulin">
+
     <createTable tableName="apartment" remarks="Таблица Помещение">
       <column name="id" type="serial" remarks="Уникальный идентификатор">
         <constraints primaryKey="true" primaryKeyName="apartment_id_pk"/>
@@ -23,6 +24,7 @@
         <constraints nullable="false"/>
       </column>
     </createTable>
+
     <createTable tableName="advert" remarks="Таблица Объявление">
       <column name="id" type="serial" remarks="Уникальный идентификатор">
         <constraints primaryKey="true" primaryKeyName="advert_id_pk"/>
@@ -42,6 +44,7 @@
         <constraints nullable="false"/>
       </column>
     </createTable>
+
     <createTable tableName="client" remarks="Таблица Клиент">
       <column name="id" type="serial" remarks="Уникальный идентификатор">
         <constraints primaryKey="true" primaryKeyName="client_id_pk"/>
@@ -53,6 +56,7 @@
         <constraints nullable="false" unique="true"/>
       </column>
     </createTable>
+
     <createTable tableName="booking" remarks="Таблица Бронирование">
       <column name="id" type="serial" remarks="Уникальный идентификатор">
         <constraints primaryKey="true" primaryKeyName="booking_id_pk"/>
@@ -75,5 +79,6 @@
         <constraints nullable="false"/>
       </column>
     </createTable>
+
   </changeSet>
 </databaseChangeLog>
