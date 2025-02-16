@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: 2025-02-16-create-tables.xml
+      relativeToChangelogFile: true

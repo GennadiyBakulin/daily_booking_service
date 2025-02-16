@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+  <changeSet id="2025-02-16-create-table-apartment" author="gennadiy bakulin">
+
+  </changeSet>
+
+  <changeSet id="2025-02-16-create-table-advert" author="gennadiy bakulin">
+
+  </changeSet>
+
+  <changeSet id="2025-02-16-create-table-client" author="gennadiy bakulin">
+
+  </changeSet>
+
+  <changeSet id="2025-02-16-create-table-booking" author="gennadiy bakulin">
+
+  </changeSet>
+</databaseChangeLog>
