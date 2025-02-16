@@ -5,19 +5,88 @@
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
 
-  <changeSet id="2025-02-16-create-table-apartment" author="gennadiy bakulin">
-
+  <changeSet id="2025-02-16_create-table-apartment" author="gennadiy bakulin">
+    <createTable tableName="apartment" remarks="Таблица Помещение">
+      <column name="id" type="serial" remarks="Уникальный идентификатор">
+        <constraints primaryKey="true" primaryKeyName="apartment_id_pk"/>
+      </column>
+      <column name="city" type="varchar(20)" remarks="Название города">
+        <constraints nullable="false" notNullConstraintName="apartment_city_not-null"/>
+      </column>
+      <column name="street" type="varchar(50)" remarks="Название улицы">
+        <constraints nullable="false" notNullConstraintName="apartment_street_not-null"/>
+      </column>
+      <column name="house" type="varchar(10)" remarks="Номер дома (может быть корпус)">
+        <constraints nullable="false" notNullConstraintName="apartment_house_not-null"/>
+      </column>
+      <column name="count_rooms" type="varchar(20)" remarks="Количество комнат">
+        <constraints nullable="false" notNullConstraintName="apartment_count_rooms_not-null"/>
+      </column>
+    </createTable>
   </changeSet>
 
-  <changeSet id="2025-02-16-create-table-advert" author="gennadiy bakulin">
-
+  <changeSet id="2025-02-16_create-table-advert" author="gennadiy bakulin">
+    <createTable tableName="advert" remarks="Таблица Объявление">
+      <column name="id" type="serial" remarks="Уникальный идентификатор">
+        <constraints primaryKey="true" primaryKeyName="advert_id_pk"/>
+      </column>
+      <column name="price" type="numeric(12,2)" remarks="Цена за ночь">
+        <constraints nullable="false" notNullConstraintName="advert_positive_price"
+          checkConstraint="check(cast(price as numeric) > 0)"/>
+      </column>
+      <column name="is_active" type="boolean" defaultValueBoolean="true"
+        remarks="Статус (активное или архивное)">
+        <constraints nullable="false" notNullConstraintName="advert_is_active_not-null"/>
+      </column>
+      <column name="apartment_id" type="int" remarks="Ссылка на таблицу Помещение">
+        <constraints referencedTableName="apartment" referencedColumnNames="id"
+          foreignKeyName="apartment_id_fk"/>
+      </column>
+      <column name="description" type="text" remarks="Описание">
+        <constraints nullable="false" notNullConstraintName="advert_description_not-null"/>
+      </column>
+    </createTable>
   </changeSet>
 
-  <changeSet id="2025-02-16-create-table-client" author="gennadiy bakulin">
-
+  <changeSet id="2025-02-16_create-table-client" author="gennadiy bakulin">
+    <createTable tableName="client" remarks="Таблица Клиент">
+      <column name="id" type="serial" remarks="Уникальный идентификатор">
+        <constraints primaryKey="true" primaryKeyName="client_id_pk"/>
+      </column>
+      <column name="name" type="varchar(30)" remarks="Имя клиента">
+        <constraints nullable="false" notNullConstraintName="client_name_not-null"
+          checkConstraint="length(trim(name)) > 0"/>
+      </column>
+      <column name="email" type="varchar(30)" remarks="email клиента (УНИКАЛЬНЫЙ)">
+        <constraints nullable="false" notNullConstraintName="client_email_not-null" unique="true"
+          checkConstraint="check(length(trim(email)) > 0)"/>
+      </column>
+    </createTable>
   </changeSet>
 
-  <changeSet id="2025-02-16-create-table-booking" author="gennadiy bakulin">
-
+  <changeSet id="2025-02-16_create-table-booking" author="gennadiy bakulin">
+    <createTable tableName="booking" remarks="Таблица Бронирование">
+      <column name="id" type="serial" remarks="Уникальный идентификатор">
+        <constraints primaryKey="true" primaryKeyName="booking_id_pk"/>
+      </column>
+      <column name="start_date" type="timestamp" remarks="Дата начала бронирования">
+        <constraints nullable="false" notNullConstraintName="booking_start_date_non-null"/>
+      </column>
+      <column name="end_date" type="timestamp" remarks="Дата окончания бронирования">
+        <constraints nullable="false" notNullConstraintName="booking_end_date_non-null"/>
+      </column>
+      <column name="client_id" type="int" remarks="Ссылка на таблицу Клиент">
+        <constraints referencedTableName="client" referencedColumnNames="id"
+          foreignKeyName="client_id_fk"/>
+      </column>
+      <column name="advert_id" type="int" remarks="Ссылка на таблицу Объявление">
+        <constraints referencedTableName="advert" referencedColumnNames="id"
+          foreignKeyName="advert_id_fk"/>
+      </column>
+      <column name="amount" type="numeric(12,2)" remarks="Стоимость всего бронирования">
+        <constraints nullable="false" notNullConstraintName="booking_positive_amount"
+          checkConstraint="check(cast(amount as numeric) >= 0)"/>
+      </column>
+    </createTable>
   </changeSet>
 </databaseChangeLog>
