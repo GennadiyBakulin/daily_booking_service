@@ -5,22 +5,22 @@
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
 
-  <changeSet id="20250216_create_tables" author="gennadiy bakulin">
+  <changeSet id="20250216_init schema" author="gennadiy bakulin">
 
     <createTable tableName="apartment" remarks="Таблица Помещение">
       <column name="id" type="serial" remarks="Уникальный идентификатор">
         <constraints primaryKey="true" primaryKeyName="apartment_id_pk"/>
       </column>
-      <column name="city" type="varchar(40)" remarks="Название города">
+      <column name="city" type="varchar(255)" remarks="Название города">
         <constraints nullable="false"/>
       </column>
       <column name="street" type="varchar(255)" remarks="Название улицы">
         <constraints nullable="false"/>
       </column>
-      <column name="house" type="varchar(15)" remarks="Номер дома (может быть корпус)">
+      <column name="house" type="varchar(255)" remarks="Номер дома (может быть корпус)">
         <constraints nullable="false"/>
       </column>
-      <column name="count_rooms" type="varchar(25)" remarks="Количество комнат">
+      <column name="count_rooms" type="varchar(255)" remarks="Количество комнат">
         <constraints nullable="false"/>
       </column>
     </createTable>

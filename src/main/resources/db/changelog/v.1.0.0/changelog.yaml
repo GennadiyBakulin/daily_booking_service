@@ -1,4 +1,4 @@
 databaseChangeLog:
   - include:
-      file: 20250216_create-tables.xml
+      file: 20250216_init schema.xml
       relativeToChangelogFile: true
