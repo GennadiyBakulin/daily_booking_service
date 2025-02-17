@@ -32,7 +32,7 @@
       <column name="price" type="numeric(12,2)" remarks="Цена за ночь">
         <constraints nullable="false"/>
       </column>
-      <column name="is_active" type="boolean" defaultValueBoolean="true"
+      <column name="is_active" type="boolean"
         remarks="Статус (активное или архивное)">
         <constraints nullable="false"/>
       </column>
