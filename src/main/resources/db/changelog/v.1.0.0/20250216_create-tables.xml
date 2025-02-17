@@ -37,7 +37,7 @@
         <constraints nullable="false"/>
       </column>
       <column name="apartment_id" type="int" remarks="Ссылка на таблицу apartment">
-        <constraints referencedTableName="apartment" referencedColumnNames="id"
+        <constraints nullable="false" referencedTableName="apartment" referencedColumnNames="id"
           foreignKeyName="apartment_id_fk"/>
       </column>
       <column name="description" type="text" remarks="Описание">
@@ -68,17 +68,16 @@
         <constraints nullable="false"/>
       </column>
       <column name="client_id" type="int" remarks="Ссылка на таблицу client">
-        <constraints referencedTableName="client" referencedColumnNames="id"
+        <constraints nullable="false" referencedTableName="client" referencedColumnNames="id"
           foreignKeyName="client_id_fk"/>
       </column>
       <column name="advert_id" type="int" remarks="Ссылка на таблицу advert">
-        <constraints referencedTableName="advert" referencedColumnNames="id"
+        <constraints nullable="false" referencedTableName="advert" referencedColumnNames="id"
           foreignKeyName="advert_id_fk"/>
       </column>
       <column name="amount" type="numeric(12,2)" remarks="Стоимость бронирования">
         <constraints nullable="false"/>
       </column>
     </createTable>
-
   </changeSet>
 </databaseChangeLog>
