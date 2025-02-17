@@ -22,12 +22,12 @@ public class Apartment {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
-  @Column
+  @Column(nullable = false)
   private String city;
-  @Column
+  @Column(nullable = false)
   private String street;
-  @Column
+  @Column(nullable = false)
   private String house;
-  @Column
+  @Column(nullable = false)
   private RoomsType countRooms;
 }
