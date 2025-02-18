@@ -2,3 +2,6 @@ databaseChangeLog:
   - include:
       file: 20250216_init schema.xml
       relativeToChangelogFile: true
+  - include:
+      file: 20250216_dropDefaultValue_column_is_active_table_advert.xml
+      relativeToChangelogFile: true
