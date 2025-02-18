@@ -31,6 +31,6 @@ public class Advert {
   private Boolean isActive;
   @Column(nullable = false)
   private Integer apartmentId;
-  @Column(nullable = false, length = 4096)
+  @Column(nullable = false)
   private String description;
 }
