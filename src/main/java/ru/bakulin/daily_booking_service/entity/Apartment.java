@@ -34,5 +34,5 @@ public class Apartment {
   private String house;
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
-  private RoomsType countRooms;
+  private ApartmentType countRooms;
 }

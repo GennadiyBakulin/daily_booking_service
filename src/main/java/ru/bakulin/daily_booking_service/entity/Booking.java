@@ -34,6 +34,6 @@ public class Booking {
   private Integer clientId;
   @Column(nullable = false)
   private Integer advertId;
-  @Column(nullable = false, scale = 12, precision = 2)
+  @Column(nullable = false)
   private BigDecimal amount;
 }
