@@ -1,7 +1,7 @@
 databaseChangeLog:
   - include:
-      file: 20250216_init schema.xml
+      file: 20250216_init_schema.xml
       relativeToChangelogFile: true
   - include:
-      file: 20250216_dropDefaultValue_column_is_active_table_advert.xml
+      file: 20250216_drop_default_value_column_is-active_table_advert.xml
       relativeToChangelogFile: true

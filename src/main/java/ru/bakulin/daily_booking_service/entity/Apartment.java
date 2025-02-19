@@ -26,13 +26,17 @@ public class Apartment {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
+
   @Column(nullable = false)
   private String city;
+
   @Column(nullable = false)
   private String street;
+
   @Column(nullable = false)
   private String house;
+
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
-  private ApartmentType countRooms;
+  private ApartmentType apartmentType;
 }

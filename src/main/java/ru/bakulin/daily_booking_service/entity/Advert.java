@@ -25,12 +25,16 @@ public class Advert {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
+
   @Column(nullable = false)
   private BigDecimal price;
+
   @Column(nullable = false)
   private Boolean isActive;
+
   @Column(nullable = false)
   private Integer apartmentId;
+
   @Column(nullable = false)
   private String description;
 }
