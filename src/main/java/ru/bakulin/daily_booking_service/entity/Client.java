@@ -2,23 +2,24 @@ package ru.bakulin.daily_booking_service.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import jakarta.persistence.OneToMany;
+import java.util.List;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Setter
 @Getter
 @ToString
+@NoArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Client {
 
   @Id
@@ -30,4 +31,13 @@ public class Client {
 
   @Column(nullable = false, unique = true, length = 50)
   private String email;
+
+  @ToString.Exclude
+  @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
+  private List<Booking> bookings;
+
+  public Client(String name, String email) {
+    this.name = name;
+    this.email = email;
+  }
 }
