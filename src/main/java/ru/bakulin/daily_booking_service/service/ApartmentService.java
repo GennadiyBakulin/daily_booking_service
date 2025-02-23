@@ -7,5 +7,5 @@ public interface ApartmentService {
 
   ApartmentDto save(ApartmentDto dto);
 
-  Apartment findApartmentById(Integer id);
+  Apartment findById(Integer id);
 }

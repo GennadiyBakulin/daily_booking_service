@@ -20,7 +20,7 @@ public class AdvertServiceImpl implements AdvertService {
 
   @Override
   public AdvertDtoRs save(AdvertDtoRq dto) {
-    Apartment apartment = apartmentService.findApartmentById(dto.getApartmentId());
+    Apartment apartment = apartmentService.findById(dto.getApartmentId());
 
     Advert advertEntity = mapper.toEntity(dto);
     advertEntity.setApartment(apartment);
@@ -28,5 +28,9 @@ public class AdvertServiceImpl implements AdvertService {
     Advert advert = repository.save(advertEntity);
 
     return mapper.toDtoRs(advert);
+  }
+
+  public Advert findById(Integer id) {
+    return repository.findById(id).orElseThrow();
   }
 }

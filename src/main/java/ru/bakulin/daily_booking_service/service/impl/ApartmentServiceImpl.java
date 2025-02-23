@@ -24,7 +24,7 @@ public class ApartmentServiceImpl implements ApartmentService {
   }
 
   @Override
-  public Apartment findApartmentById(Integer id) {
+  public Apartment findById(Integer id) {
     return repository.findById(id).orElseThrow();
   }
 }
