@@ -19,6 +19,7 @@ public class ApartmentServiceImpl implements ApartmentService {
   public ApartmentDto save(ApartmentDto dto) {
     Apartment entity = mapper.toEntity(dto);
     Apartment apartment = repository.save(entity);
+
     return mapper.toDto(apartment);
   }
 
