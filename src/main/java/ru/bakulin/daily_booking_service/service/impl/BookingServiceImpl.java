@@ -1,5 +1,6 @@
 package ru.bakulin.daily_booking_service.service.impl;
 
+import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.bakulin.daily_booking_service.dto.BookingDtoRq;
@@ -25,9 +26,14 @@ public class BookingServiceImpl implements BookingService {
     Client client = clientService.findById(dtoRq.getClientId());
     Advert advert = advertService.findById(dtoRq.getAdvertId());
 
+    LocalDate dateStart = LocalDate.parse(dtoRq.getDateStart());
+    LocalDate dateFinish = LocalDate.parse(dtoRq.getDateStart());
+
     Booking entity = mapper.toEntity(dtoRq);
     entity.setClient(client);
     entity.setAdvert(advert);
+    entity.setDateStart(dateStart);
+    entity.setDateFinish(dateFinish);
 
     Booking booking = repository.save(entity);
 
