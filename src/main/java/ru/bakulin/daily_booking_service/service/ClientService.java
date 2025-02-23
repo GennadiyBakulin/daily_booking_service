@@ -1,22 +1,8 @@
 package ru.bakulin.daily_booking_service.service;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import ru.bakulin.daily_booking_service.dto.ClientDto;
-import ru.bakulin.daily_booking_service.entity.Client;
-import ru.bakulin.daily_booking_service.mapper.ClientMapper;
-import ru.bakulin.daily_booking_service.repository.ClientRepository;
 
-@Service
-@RequiredArgsConstructor
-public class ClientService {
+public interface ClientService {
 
-  private final ClientRepository repository;
-  private final ClientMapper mapper;
-
-  public ClientDto save(ClientDto dto) {
-    Client entity = mapper.toEntity(dto);
-    Client client = repository.save(entity);
-    return mapper.toDto(client);
-  }
+  ClientDto save(ClientDto dto);
 }
