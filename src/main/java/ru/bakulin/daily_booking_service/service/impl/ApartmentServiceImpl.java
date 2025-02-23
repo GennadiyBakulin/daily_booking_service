@@ -15,9 +15,15 @@ public class ApartmentServiceImpl implements ApartmentService {
   private final ApartmentRepository repository;
   private final ApartmentMapper mapper;
 
+  @Override
   public ApartmentDto save(ApartmentDto dto) {
     Apartment entity = mapper.toEntity(dto);
     Apartment apartment = repository.save(entity);
     return mapper.toDto(apartment);
+  }
+
+  @Override
+  public Apartment findApartmentById(Integer id) {
+    return repository.findById(id).orElseThrow();
   }
 }
