@@ -10,6 +10,7 @@ import ru.bakulin.daily_booking_service.entity.Client;
 public interface ClientMapper {
 
   @Mapping(target = "id", ignore = true)
+  @Mapping(target = "bookings", ignore = true)
   Client toEntity(ClientDto clientDto);
 
   ClientDto toDto(Client client);

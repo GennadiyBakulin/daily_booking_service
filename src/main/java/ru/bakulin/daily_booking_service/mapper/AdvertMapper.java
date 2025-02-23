@@ -12,6 +12,7 @@ public interface AdvertMapper {
 
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "apartment", ignore = true)
+  @Mapping(target = "bookings", ignore = true)
   Advert toEntity(AdvertDtoRq dto);
 
   AdvertDtoRs toDtoRs(Advert advert);

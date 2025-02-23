@@ -10,6 +10,7 @@ import ru.bakulin.daily_booking_service.entity.Apartment;
 public interface ApartmentMapper {
 
   @Mapping(target = "id", ignore = true)
+  @Mapping(target = "adverts", ignore = true)
   Apartment toEntity(ApartmentDto apartmentDto);
 
   ApartmentDto toDto(Apartment apartment);
