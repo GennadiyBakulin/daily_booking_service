@@ -11,5 +11,4 @@ public class BookingDtoRq {
   private Integer advertId;
   private String dateStart;
   private String dateFinish;
-  private BigDecimal resultPrice;
 }

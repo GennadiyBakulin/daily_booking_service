@@ -43,15 +43,15 @@ public class Booking {
   @JoinColumn(name = "advert_id", nullable = false)
   private Advert advert;
 
-  @Column(name = "amount", nullable = false)
-  private BigDecimal resultPrice;
+  @Column(nullable = false)
+  private BigDecimal amount;
 
   public Booking(LocalDate dateStart, LocalDate dateFinish, Client client, Advert advert,
-      BigDecimal resultPrice) {
+      BigDecimal amount) {
     this.dateStart = dateStart;
     this.dateFinish = dateFinish;
     this.client = client;
     this.advert = advert;
-    this.resultPrice = resultPrice;
+    this.amount = amount;
   }
 }

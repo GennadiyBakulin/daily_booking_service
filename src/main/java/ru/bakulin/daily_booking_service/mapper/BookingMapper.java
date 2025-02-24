@@ -15,7 +15,9 @@ public interface BookingMapper {
   @Mapping(target = "advert", ignore = true)
   @Mapping(target = "dateStart", ignore = true)
   @Mapping(target = "dateFinish", ignore = true)
+  @Mapping(target = "amount", ignore = true)
   Booking toEntity(BookingDtoRq dto);
 
+  @Mapping(source = "amount", target = "resultPrice")
   BookingDtoRs toDtoRs(Booking booking);
 }
