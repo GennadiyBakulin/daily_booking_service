@@ -2,6 +2,7 @@ package ru.bakulin.daily_booking_service.service.impl;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.bakulin.daily_booking_service.dto.BookingDtoRq;
@@ -48,7 +49,12 @@ public class BookingServiceImpl implements BookingService {
   }
 
   private BigDecimal calculateResultPrice(LocalDate start, LocalDate finish, BigDecimal price) {
-    long countDayBooking = finish.toEpochDay() - start.toEpochDay();
+    long countDayBooking = ChronoUnit.DAYS.between(start, finish);
+
+    if (countDayBooking < 0) {
+      throw new RuntimeException(
+          "Ошибка в указании периода бронирования. Дата окончания бронирования раньше чем дата начала бронирования.");
+    }
 
     return price.multiply(BigDecimal.valueOf(countDayBooking));
   }
