@@ -1,5 +1,6 @@
 package ru.bakulin.daily_booking_service.mapper;
 
+import java.math.BigDecimal;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
@@ -15,8 +16,7 @@ public interface BookingMapper {
   @Mapping(target = "advert", ignore = true)
   @Mapping(target = "dateStart", ignore = true)
   @Mapping(target = "dateFinish", ignore = true)
-  @Mapping(target = "amount", ignore = true)
-  Booking toEntity(BookingDtoRq dto);
+  Booking toEntity(BookingDtoRq dto, BigDecimal amount);
 
   @Mapping(source = "amount", target = "resultPrice")
   BookingDtoRs toDtoRs(Booking booking);

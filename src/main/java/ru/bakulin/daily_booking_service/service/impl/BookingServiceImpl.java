@@ -1,5 +1,6 @@
 package ru.bakulin.daily_booking_service.service.impl;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,11 +26,14 @@ public class BookingServiceImpl implements BookingService {
   public BookingDtoRs save(BookingDtoRq dtoRq) {
     Client client = clientService.findById(dtoRq.getClientId());
     Advert advert = advertService.findById(dtoRq.getAdvertId());
+    BigDecimal price = advert.getPrice();
 
     LocalDate dateStart = LocalDate.parse(dtoRq.getDateStart());
-    LocalDate dateFinish = LocalDate.parse(dtoRq.getDateStart());
+    LocalDate dateFinish = LocalDate.parse(dtoRq.getDateFinish());
+    long countDayBooking = dateFinish.toEpochDay() - dateStart.toEpochDay();
+    BigDecimal resultPrice = price.multiply(BigDecimal.valueOf(countDayBooking));
 
-    Booking entity = mapper.toEntity(dtoRq);
+    Booking entity = mapper.toEntity(dtoRq, resultPrice);
     entity.setClient(client);
     entity.setAdvert(advert);
     entity.setDateStart(dateStart);
