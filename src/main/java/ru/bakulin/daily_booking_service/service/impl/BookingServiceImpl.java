@@ -24,23 +24,32 @@ public class BookingServiceImpl implements BookingService {
 
   @Override
   public BookingDtoRs save(BookingDtoRq dtoRq) {
+    Booking entity = toEntityWithRelation(dtoRq);
+    Booking booking = repository.save(entity);
+
+    return mapper.toDtoRs(booking);
+  }
+
+  private Booking toEntityWithRelation(BookingDtoRq dtoRq) {
     Client client = clientService.findById(dtoRq.getClientId());
     Advert advert = advertService.findById(dtoRq.getAdvertId());
+
+    LocalDate dateStart = dtoRq.getDateStart();
+    LocalDate dateFinish = dtoRq.getDateFinish();
     BigDecimal price = advert.getPrice();
 
-    LocalDate dateStart = LocalDate.parse(dtoRq.getDateStart());
-    LocalDate dateFinish = LocalDate.parse(dtoRq.getDateFinish());
-    long countDayBooking = dateFinish.toEpochDay() - dateStart.toEpochDay();
-    BigDecimal resultPrice = price.multiply(BigDecimal.valueOf(countDayBooking));
+    BigDecimal resultPrice = calculateResultPrice(dateStart, dateFinish, price);
 
     Booking entity = mapper.toEntity(dtoRq, resultPrice);
     entity.setClient(client);
     entity.setAdvert(advert);
-    entity.setDateStart(dateStart);
-    entity.setDateFinish(dateFinish);
 
-    Booking booking = repository.save(entity);
+    return entity;
+  }
 
-    return mapper.toDtoRs(booking);
+  private BigDecimal calculateResultPrice(LocalDate start, LocalDate finish, BigDecimal price) {
+    long countDayBooking = finish.toEpochDay() - start.toEpochDay();
+
+    return price.multiply(BigDecimal.valueOf(countDayBooking));
   }
 }
