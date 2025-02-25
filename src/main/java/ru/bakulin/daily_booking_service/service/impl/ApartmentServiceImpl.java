@@ -22,9 +22,4 @@ public class ApartmentServiceImpl implements ApartmentService {
 
     return mapper.toDto(apartment);
   }
-
-  @Override
-  public Apartment findById(Integer id) {
-    return repository.findById(id).orElseThrow();
-  }
 }

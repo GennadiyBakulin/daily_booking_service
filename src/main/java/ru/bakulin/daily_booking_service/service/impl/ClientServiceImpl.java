@@ -22,8 +22,4 @@ public class ClientServiceImpl implements ClientService {
 
     return mapper.toDto(client);
   }
-
-  public Client findById(Integer id) {
-    return repository.findById(id).orElseThrow();
-  }
 }
