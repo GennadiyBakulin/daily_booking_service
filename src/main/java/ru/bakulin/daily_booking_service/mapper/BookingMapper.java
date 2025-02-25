@@ -28,7 +28,7 @@ public abstract class BookingMapper {
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "client", source = "clientId", qualifiedByName = "getClientById")
   @Mapping(target = "advert", source = "advertId", qualifiedByName = "getAdvertById")
-  @Mapping(target = "amount", qualifiedByName = "calculateResultPrice")
+  @Mapping(target = "amount", source = "dto", qualifiedByName = "calculateResultPrice")
   public abstract Booking toEntityWithRelation(BookingDtoRq dto);
 
   @Mapping(source = "amount", target = "resultPrice")
