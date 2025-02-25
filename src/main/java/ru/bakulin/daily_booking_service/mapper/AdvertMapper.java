@@ -20,7 +20,7 @@ public abstract class AdvertMapper {
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "bookings", ignore = true)
   @Mapping(target = "apartment", source = "apartmentId", qualifiedByName = "getApartmentById")
-  public abstract Advert toEntity(AdvertDtoRq dto);
+  public abstract Advert toEntityWithRelation(AdvertDtoRq dto);
 
   public abstract AdvertDtoRs toDtoRs(Advert advert);
 

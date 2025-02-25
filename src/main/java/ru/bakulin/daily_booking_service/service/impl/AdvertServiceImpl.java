@@ -18,7 +18,7 @@ public class AdvertServiceImpl implements AdvertService {
 
   @Override
   public AdvertDtoRs save(AdvertDtoRq dto) {
-    Advert advertEntity = mapper.toEntity(dto);
+    Advert advertEntity = mapper.toEntityWithRelation(dto);
 
     Advert advert = repository.save(advertEntity);
 
