@@ -27,11 +27,11 @@ public class Booking {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @Column(nullable = false)
-  private LocalDate startDate;
+  @Column(name = "start_date", nullable = false)
+  private LocalDate dateStart;
 
-  @Column(nullable = false)
-  private LocalDate endDate;
+  @Column(name = "end_date", nullable = false)
+  private LocalDate dateFinish;
 
   @ToString.Exclude
   @ManyToOne
@@ -46,10 +46,10 @@ public class Booking {
   @Column(nullable = false)
   private BigDecimal amount;
 
-  public Booking(LocalDate startDate, LocalDate endDate, Client client, Advert advert,
+  public Booking(LocalDate dateStart, LocalDate dateFinish, Client client, Advert advert,
       BigDecimal amount) {
-    this.startDate = startDate;
-    this.endDate = endDate;
+    this.dateStart = dateStart;
+    this.dateFinish = dateFinish;
     this.client = client;
     this.advert = advert;
     this.amount = amount;
