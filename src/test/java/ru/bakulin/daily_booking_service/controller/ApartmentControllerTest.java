@@ -10,26 +10,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
-import org.springframework.transaction.annotation.Transactional;
 import ru.bakulin.daily_booking_service.dto.ApartmentDto;
 import ru.bakulin.daily_booking_service.entity.ApartmentType;
-import ru.bakulin.daily_booking_service.service.ApartmentService;
 
 @Slf4j
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
-@Transactional
-@Rollback
 @Sql(value = "classpath:clear-table.sql", executionPhase = ExecutionPhase.AFTER_TEST_CLASS)
 class ApartmentControllerTest {
-
-  @Autowired
-  private ApartmentService service;
 
   private final RequestSpecification requestSpecification = new RequestSpecBuilder()
       .setBasePath("/apartment")
@@ -67,5 +58,4 @@ class ApartmentControllerTest {
     Assertions.assertEquals(request.getHouse(), response.getHouse());
     Assertions.assertEquals(request.getApartmentType(), response.getApartmentType());
   }
-
 }
