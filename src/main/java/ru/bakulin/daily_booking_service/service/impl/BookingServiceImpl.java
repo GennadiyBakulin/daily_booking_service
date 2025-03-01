@@ -14,7 +14,6 @@ import ru.bakulin.daily_booking_service.dto.BookingPaginationDto;
 import ru.bakulin.daily_booking_service.dto.ClientDto;
 import ru.bakulin.daily_booking_service.entity.Booking;
 import ru.bakulin.daily_booking_service.mapper.BookingMapper;
-import ru.bakulin.daily_booking_service.repository.AdvertRepository;
 import ru.bakulin.daily_booking_service.repository.BookingRepository;
 import ru.bakulin.daily_booking_service.repository.ClientRepository;
 import ru.bakulin.daily_booking_service.service.BookingService;
@@ -27,7 +26,6 @@ public class BookingServiceImpl implements BookingService {
 
   private final ClientServiceImpl clientService;
   private final ClientRepository clientRepository;
-  private final AdvertRepository advertRepository;
   private final BookingRepository repository;
   private final BookingMapper mapper;
 
