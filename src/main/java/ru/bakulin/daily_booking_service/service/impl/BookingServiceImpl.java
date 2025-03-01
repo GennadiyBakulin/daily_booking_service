@@ -12,8 +12,6 @@ import ru.bakulin.daily_booking_service.dto.BookingDtoRq;
 import ru.bakulin.daily_booking_service.dto.BookingDtoRs;
 import ru.bakulin.daily_booking_service.dto.BookingPaginationDto;
 import ru.bakulin.daily_booking_service.dto.ClientDto;
-import ru.bakulin.daily_booking_service.entity.Advert;
-import ru.bakulin.daily_booking_service.entity.Apartment;
 import ru.bakulin.daily_booking_service.entity.Booking;
 import ru.bakulin.daily_booking_service.mapper.BookingMapper;
 import ru.bakulin.daily_booking_service.repository.AdvertRepository;
@@ -41,29 +39,26 @@ public class BookingServiceImpl implements BookingService {
     if (Objects.nonNull(client.getId()) && !clientRepository.existsById(client.getId())) {
       throw new RuntimeException();
     }
+
     if (Objects.isNull(client.getId())) {
-      client = clientService.save(client);
+      dtoRq.setClient(clientService.save(client));
     }
 
-    Advert currentAdvert = advertRepository.findById(dtoRq.getAdvertId()).orElseThrow();
-    Apartment apartment = currentAdvert.getApartment();
-    List<Advert> adverts = apartment.getAdverts();
-    List<Booking> bookings = adverts.stream()
-        .flatMap(advert -> advert.getBookings().stream())
-        .toList();
+    Booking entity = mapper.toEntityWithRelation(dtoRq);
 
-    LocalDate startDateBooking = dtoRq.getDateStart();
-    LocalDate finishDateBooking = dtoRq.getDateFinish();
+    List<Booking> bookings = repository.findAllByAdvertApartmentAdvertsBookings(entity);
+
+    LocalDate startDate = entity.getDateStart();
+    LocalDate finishDate = entity.getDateFinish();
+
     for (Booking booking : bookings) {
-      if (finishDateBooking.isAfter(booking.getDateStart())
-          && startDateBooking.isBefore(booking.getDateFinish())) {
+      if (finishDate.isAfter(booking.getDateStart())
+          && startDate.isBefore(booking.getDateFinish())) {
         throw new RuntimeException();
       }
     }
 
-    Booking entity = mapper.toEntityWithRelation(dtoRq);
     Booking booking = repository.save(entity);
-
     return mapper.toDtoRs(booking);
   }
 
