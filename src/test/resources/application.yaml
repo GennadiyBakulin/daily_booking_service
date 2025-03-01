@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/flat_rent
+    url: jdbc:postgresql://localhost:5432/test
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
@@ -11,6 +11,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
 
 logging:
   level:
@@ -19,6 +21,3 @@ logging:
         orm:
           jdbc:
             bind: TRACE
-
-test:
-  schema-name: test

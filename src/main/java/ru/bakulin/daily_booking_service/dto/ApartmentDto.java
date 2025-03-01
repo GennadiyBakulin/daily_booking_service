@@ -1,9 +1,11 @@
 package ru.bakulin.daily_booking_service.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 import lombok.Data;
 import ru.bakulin.daily_booking_service.entity.ApartmentType;
 
+@Builder
 @Data
 public class ApartmentDto {
 
