@@ -9,8 +9,7 @@ import lombok.Data;
 public class BookingDtoRq {
 
   private Integer id;
-  @JsonProperty("client_id")
-  private Integer clientId;
+  private ClientDto client;
   @JsonProperty("advert_id")
   private Integer advertId;
   @JsonProperty("date_start")

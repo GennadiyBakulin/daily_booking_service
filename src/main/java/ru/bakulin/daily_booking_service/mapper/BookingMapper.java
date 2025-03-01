@@ -26,9 +26,9 @@ public abstract class BookingMapper {
   private AdvertRepository advertRepository;
 
   @Mapping(target = "id", ignore = true)
-  @Mapping(target = "client", source = "clientId", qualifiedByName = "getClientById")
+//  @Mapping(target = "client", source = "clientId", qualifiedByName = "getClientById")
   @Mapping(target = "advert", source = "advertId", qualifiedByName = "getAdvertById")
-  @Mapping(target = "amount", source = "dto", qualifiedByName = "calculateResultPrice")
+  @Mapping(target = "amount", source = "dto", qualifiedByName = "getResultPrice")
   public abstract Booking toEntityWithRelation(BookingDtoRq dto);
 
   @Mapping(source = "amount", target = "resultPrice")
@@ -44,8 +44,8 @@ public abstract class BookingMapper {
     return advertRepository.findById(id).orElseThrow();
   }
 
-  @Named("calculateResultPrice")
-  protected BigDecimal calculateResultPrice(BookingDtoRq dto) {
+  @Named("getResultPrice")
+  protected BigDecimal getResultPrice(BookingDtoRq dto) {
     Advert advert = getAdvertById(dto.getAdvertId());
 
     LocalDate start = dto.getDateStart();
