@@ -59,14 +59,18 @@ public abstract class BookingMapper {
 
     LocalDate start = dto.getDateStart();
     LocalDate finish = dto.getDateFinish();
+
+    checkCorrectInputPeriodBooking(start, finish);
     long countDayBooking = ChronoUnit.DAYS.between(start, finish);
 
-    if (countDayBooking < 0) {
+    return advert.getPrice().multiply(BigDecimal.valueOf(countDayBooking));
+  }
+
+  private void checkCorrectInputPeriodBooking(LocalDate start, LocalDate finish) {
+    if (start.isAfter(finish)) {
       throw new UnavailableBookingPeriod(
           "Ошибка в указании периода бронирования. Дата окончания бронирования ранее даты начала бронирования.");
     }
-
-    return advert.getPrice().multiply(BigDecimal.valueOf(countDayBooking));
   }
 
   @Mapping(target = "totalPages", source = "page", qualifiedByName = "getTotalPages")
