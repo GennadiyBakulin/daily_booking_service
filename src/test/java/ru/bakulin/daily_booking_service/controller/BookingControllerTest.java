@@ -122,7 +122,7 @@ class BookingControllerTest {
         .post()
         .then()
         .spec(responseSpecification)
-        .statusCode(500);
+        .statusCode(400);
   }
 
   @Test
@@ -149,7 +149,7 @@ class BookingControllerTest {
         .post()
         .then()
         .spec(responseSpecification)
-        .statusCode(500);
+        .statusCode(400);
   }
 
   @Test
@@ -176,6 +176,6 @@ class BookingControllerTest {
         .post()
         .then()
         .spec(responseSpecification)
-        .statusCode(500);
+        .statusCode(400);
   }
 }

@@ -15,6 +15,8 @@ import ru.bakulin.daily_booking_service.dto.ClientDto;
 import ru.bakulin.daily_booking_service.entity.Advert;
 import ru.bakulin.daily_booking_service.entity.Apartment;
 import ru.bakulin.daily_booking_service.entity.Booking;
+import ru.bakulin.daily_booking_service.exception.NotFound;
+import ru.bakulin.daily_booking_service.exception.UnavailableBookingPeriod;
 import ru.bakulin.daily_booking_service.mapper.BookingMapper;
 import ru.bakulin.daily_booking_service.repository.AdvertRepository;
 import ru.bakulin.daily_booking_service.repository.BookingRepository;
@@ -39,7 +41,7 @@ public class BookingServiceImpl implements BookingService {
     ClientDto client = dtoRq.getClient();
 
     if (Objects.nonNull(client.getId()) && !clientRepository.existsById(client.getId())) {
-      throw new RuntimeException();
+      throw new NotFound("Клиент с указанным Id= %s не найден в БД".formatted(client.getId()));
     }
 
     if (Objects.isNull(client.getId())) {
@@ -65,7 +67,7 @@ public class BookingServiceImpl implements BookingService {
     for (Booking elem : bookingList) {
       if (finishDate.isAfter(elem.getDateStart())
           && startDate.isBefore(elem.getDateFinish())) {
-        throw new RuntimeException();
+        throw new UnavailableBookingPeriod("Бронирование помещения на данный период не доступно.");
       }
     }
 

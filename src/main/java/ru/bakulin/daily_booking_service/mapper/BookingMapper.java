@@ -16,6 +16,8 @@ import ru.bakulin.daily_booking_service.dto.BookingPaginationDto;
 import ru.bakulin.daily_booking_service.entity.Advert;
 import ru.bakulin.daily_booking_service.entity.Booking;
 import ru.bakulin.daily_booking_service.entity.Client;
+import ru.bakulin.daily_booking_service.exception.NotFound;
+import ru.bakulin.daily_booking_service.exception.UnavailableBookingPeriod;
 import ru.bakulin.daily_booking_service.repository.AdvertRepository;
 import ru.bakulin.daily_booking_service.repository.ClientRepository;
 
@@ -39,12 +41,16 @@ public abstract class BookingMapper {
 
   @Named("getClientById")
   protected Client getClientById(Integer id) {
-    return clientRepository.findById(id).orElseThrow();
+    return clientRepository.findById(id).orElseThrow(
+        () -> new NotFound("Клиент с указанным Id= %s не найдено в БД".formatted(id))
+    );
   }
 
   @Named("getAdvertById")
   protected Advert getAdvertById(Integer id) {
-    return advertRepository.findById(id).orElseThrow();
+    return advertRepository.findById(id).orElseThrow(
+        () -> new NotFound("Объявление с указанным Id= %s не найдено в БД".formatted(id))
+    );
   }
 
   @Named("getResultPrice")
@@ -56,8 +62,8 @@ public abstract class BookingMapper {
     long countDayBooking = ChronoUnit.DAYS.between(start, finish);
 
     if (countDayBooking < 0) {
-      throw new RuntimeException(
-          "Ошибка в указании периода бронирования. Дата окончания бронирования раньше даты начала бронирования.");
+      throw new UnavailableBookingPeriod(
+          "Ошибка в указании периода бронирования. Дата окончания бронирования ранее даты начала бронирования.");
     }
 
     return advert.getPrice().multiply(BigDecimal.valueOf(countDayBooking));
