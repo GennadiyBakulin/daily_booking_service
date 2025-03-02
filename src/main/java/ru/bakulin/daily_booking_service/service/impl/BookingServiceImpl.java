@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bakulin.daily_booking_service.dto.BookingDtoRq;
 import ru.bakulin.daily_booking_service.dto.BookingDtoRs;
-import ru.bakulin.daily_booking_service.dto.BookingPaginationDto;
 import ru.bakulin.daily_booking_service.dto.ClientDto;
+import ru.bakulin.daily_booking_service.dto.PaginationDto;
 import ru.bakulin.daily_booking_service.entity.Advert;
 import ru.bakulin.daily_booking_service.entity.Apartment;
 import ru.bakulin.daily_booking_service.entity.Booking;
@@ -57,8 +57,6 @@ public class BookingServiceImpl implements BookingService {
         .flatMap(advert1 -> advert1.getBookings().stream())
         .toList();
 
-//    List<Booking> bookings = repository.findAllByAdvertApartmentAdvertsBookings(entity);
-
     LocalDate startDate = entity.getDateStart();
     LocalDate finishDate = entity.getDateFinish();
 
@@ -76,7 +74,7 @@ public class BookingServiceImpl implements BookingService {
   }
 
   @Override
-  public BookingPaginationDto getBookingsForClientByEmail(String email, Integer pageNumber) {
+  public PaginationDto<BookingDtoRs> getBookingsForClientByEmail(String email, Integer pageNumber) {
     if (Objects.isNull(pageNumber)) {
       pageNumber = 0;
     }

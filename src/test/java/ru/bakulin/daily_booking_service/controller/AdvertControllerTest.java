@@ -3,6 +3,7 @@ package ru.bakulin.daily_booking_service.controller;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.common.mapper.TypeRef;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
@@ -19,8 +20,8 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import ru.bakulin.daily_booking_service.dto.AdvertDtoRq;
 import ru.bakulin.daily_booking_service.dto.AdvertDtoRs;
-import ru.bakulin.daily_booking_service.dto.AdvertPaginationDto;
 import ru.bakulin.daily_booking_service.dto.ApartmentDto;
+import ru.bakulin.daily_booking_service.dto.PaginationDto;
 import ru.bakulin.daily_booking_service.entity.ApartmentType;
 import ru.bakulin.daily_booking_service.service.ApartmentService;
 
@@ -85,9 +86,9 @@ class AdvertControllerTest {
   @Sql(value = {"classpath:clear-table.sql", "classpath:test-advert-controller.sql"})
   public void successGetPaginationAdverts() {
 
-    AdvertPaginationDto response = getAdvertsForCity("Barnaul", 0);
+    PaginationDto<AdvertDtoRs> response = getAdvertsForCity("Barnaul", 0);
 
-    Assertions.assertEquals(10, response.getAdverts().size());
+    Assertions.assertEquals(10, response.getContent().size());
     Assertions.assertEquals(15, response.getTotalElements());
     Assertions.assertEquals(2, response.getTotalPages());
     Assertions.assertEquals(0, response.getNumberPage());
@@ -98,7 +99,7 @@ class AdvertControllerTest {
   @Sql(value = {"classpath:clear-table.sql", "classpath:test-advert-controller.sql"})
   public void successOrderAdvertsByPriceDesc() {
 
-    List<AdvertDtoRs> adverts = getAdvertsForCity("Barnaul", 0).getAdverts();
+    List<AdvertDtoRs> adverts = getAdvertsForCity("Barnaul", 0).getContent();
 
     for (int i = 1; i < adverts.size(); i++) {
       Assertions.assertTrue(
@@ -106,7 +107,7 @@ class AdvertControllerTest {
     }
   }
 
-  private AdvertPaginationDto getAdvertsForCity(String city, Integer page) {
+  private PaginationDto<AdvertDtoRs> getAdvertsForCity(String city, Integer page) {
     return RestAssured.given(requestSpecification)
         .queryParam("city", city)
         .queryParam("page", page)
@@ -116,6 +117,7 @@ class AdvertControllerTest {
         .statusCode(200)
         .extract()
         .body()
-        .as(AdvertPaginationDto.class);
+        .as(new TypeRef<>() {
+        });
   }
 }

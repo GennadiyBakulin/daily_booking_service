@@ -12,10 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import ru.bakulin.daily_booking_service.dto.BookingDtoRq;
 import ru.bakulin.daily_booking_service.dto.BookingDtoRs;
-import ru.bakulin.daily_booking_service.dto.BookingPaginationDto;
+import ru.bakulin.daily_booking_service.dto.PaginationDto;
 import ru.bakulin.daily_booking_service.entity.Advert;
 import ru.bakulin.daily_booking_service.entity.Booking;
-import ru.bakulin.daily_booking_service.entity.Client;
 import ru.bakulin.daily_booking_service.exception.NotFound;
 import ru.bakulin.daily_booking_service.exception.UnavailableBookingPeriod;
 import ru.bakulin.daily_booking_service.repository.AdvertRepository;
@@ -38,13 +37,6 @@ public abstract class BookingMapper {
 
   @Mapping(source = "amount", target = "resultPrice")
   public abstract BookingDtoRs toDtoRs(Booking booking);
-
-  @Named("getClientById")
-  protected Client getClientById(Integer id) {
-    return clientRepository.findById(id).orElseThrow(
-        () -> new NotFound("Клиент с указанным Id= %s не найдено в БД".formatted(id))
-    );
-  }
 
   @Named("getAdvertById")
   protected Advert getAdvertById(Integer id) {
@@ -76,8 +68,8 @@ public abstract class BookingMapper {
   @Mapping(target = "totalPages", source = "page", qualifiedByName = "getTotalPages")
   @Mapping(target = "totalElements", source = "page", qualifiedByName = "getTotalElements")
   @Mapping(target = "numberPage", source = "page", qualifiedByName = "getNumberPage")
-  @Mapping(target = "bookings", source = "page", qualifiedByName = "getContent")
-  public abstract BookingPaginationDto toPaginationDto(Page<Booking> page);
+  @Mapping(target = "content", source = "page", qualifiedByName = "getContent")
+  public abstract PaginationDto<BookingDtoRs> toPaginationDto(Page<Booking> page);
 
   @Named("getTotalPages")
   protected int getTotalPages(Page<Booking> page) {

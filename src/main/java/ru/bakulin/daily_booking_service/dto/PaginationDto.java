@@ -5,9 +5,9 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class AdvertPaginationDto {
+public class PaginationDto<T> {
 
-  private List<AdvertDtoRs> adverts;
+  private List<T> content;
   @JsonProperty("total_elements")
   private long totalElements;
   @JsonProperty("total_pages")

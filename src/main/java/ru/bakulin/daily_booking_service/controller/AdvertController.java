@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.bakulin.daily_booking_service.dto.AdvertDtoRq;
 import ru.bakulin.daily_booking_service.dto.AdvertDtoRs;
-import ru.bakulin.daily_booking_service.dto.AdvertPaginationDto;
+import ru.bakulin.daily_booking_service.dto.PaginationDto;
 import ru.bakulin.daily_booking_service.service.AdvertService;
 
 @RestController
@@ -25,7 +25,7 @@ public class AdvertController {
   }
 
   @GetMapping
-  public AdvertPaginationDto getAdvertForCity(
+  public PaginationDto<AdvertDtoRs> getAdvertForCity(
       @RequestParam String city,
       @RequestParam(required = false) Integer page) {
 

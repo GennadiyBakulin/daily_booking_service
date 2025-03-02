@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.bakulin.daily_booking_service.dto.BookingDtoRq;
 import ru.bakulin.daily_booking_service.dto.BookingDtoRs;
-import ru.bakulin.daily_booking_service.dto.BookingPaginationDto;
+import ru.bakulin.daily_booking_service.dto.PaginationDto;
 import ru.bakulin.daily_booking_service.service.BookingService;
 
 @RestController
@@ -25,7 +25,7 @@ public class BookingController {
   }
 
   @GetMapping
-  public BookingPaginationDto getBookingsForClientByEmail(
+  public PaginationDto<BookingDtoRs> getBookingsForClientByEmail(
       @RequestParam String email,
       @RequestParam(required = false) Integer page) {
 

@@ -7,7 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.bakulin.daily_booking_service.dto.AdvertDtoRq;
 import ru.bakulin.daily_booking_service.dto.AdvertDtoRs;
-import ru.bakulin.daily_booking_service.dto.AdvertPaginationDto;
+import ru.bakulin.daily_booking_service.dto.PaginationDto;
 import ru.bakulin.daily_booking_service.entity.Advert;
 import ru.bakulin.daily_booking_service.mapper.AdvertMapper;
 import ru.bakulin.daily_booking_service.repository.AdvertRepository;
@@ -32,7 +32,7 @@ public class AdvertServiceImpl implements AdvertService {
   }
 
   @Override
-  public AdvertPaginationDto getAdvertsForCity(String city, Integer pageNumber) {
+  public PaginationDto<AdvertDtoRs> getAdvertsForCity(String city, Integer pageNumber) {
     if (Objects.isNull(pageNumber)) {
       pageNumber = 0;
     }
