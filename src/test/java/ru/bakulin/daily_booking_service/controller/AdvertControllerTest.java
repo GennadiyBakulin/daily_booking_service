@@ -82,7 +82,7 @@ class AdvertControllerTest {
 
   @Test
   @DisplayName("Успешное получение списка Объявлений по 10 штук по городу Barnaul из БД")
-  @Sql(value = {"classpath:clear-table.sql", "classpath:create-adverts.sql"})
+  @Sql(value = {"classpath:clear-table.sql", "classpath:test-advert-controller.sql"})
   public void successGetPaginationAdverts() {
 
     AdvertPaginationDto response = getAdvertsForCity("Barnaul", 0);
@@ -95,13 +95,14 @@ class AdvertControllerTest {
 
   @Test
   @DisplayName("Успешная сортировка списка Объявлений по убывающей цене")
-  @Sql(value = {"classpath:clear-table.sql", "classpath:create-adverts.sql"})
+  @Sql(value = {"classpath:clear-table.sql", "classpath:test-advert-controller.sql"})
   public void successOrderAdvertsByPriceDesc() {
 
     List<AdvertDtoRs> adverts = getAdvertsForCity("Barnaul", 0).getAdverts();
 
     for (int i = 1; i < adverts.size(); i++) {
-      Assertions.assertTrue(adverts.get(i - 1).getPrice().compareTo(adverts.get(i).getPrice()) > 0);
+      Assertions.assertTrue(
+          adverts.get(i - 1).getPrice().compareTo(adverts.get(i).getPrice()) > 0);
     }
   }
 

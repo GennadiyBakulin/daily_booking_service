@@ -3,8 +3,10 @@ package ru.bakulin.daily_booking_service.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
+import lombok.Builder;
 import lombok.Data;
 
+@Builder
 @Data
 public class BookingDtoRq {
 

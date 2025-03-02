@@ -12,8 +12,11 @@ import ru.bakulin.daily_booking_service.dto.BookingDtoRq;
 import ru.bakulin.daily_booking_service.dto.BookingDtoRs;
 import ru.bakulin.daily_booking_service.dto.BookingPaginationDto;
 import ru.bakulin.daily_booking_service.dto.ClientDto;
+import ru.bakulin.daily_booking_service.entity.Advert;
+import ru.bakulin.daily_booking_service.entity.Apartment;
 import ru.bakulin.daily_booking_service.entity.Booking;
 import ru.bakulin.daily_booking_service.mapper.BookingMapper;
+import ru.bakulin.daily_booking_service.repository.AdvertRepository;
 import ru.bakulin.daily_booking_service.repository.BookingRepository;
 import ru.bakulin.daily_booking_service.repository.ClientRepository;
 import ru.bakulin.daily_booking_service.service.BookingService;
@@ -24,6 +27,7 @@ public class BookingServiceImpl implements BookingService {
 
   private static final Integer PAGE_SIZE = 20;
 
+  private final AdvertRepository advertRepository;
   private final ClientServiceImpl clientService;
   private final ClientRepository clientRepository;
   private final BookingRepository repository;
@@ -44,14 +48,23 @@ public class BookingServiceImpl implements BookingService {
 
     Booking entity = mapper.toEntityWithRelation(dtoRq);
 
-    List<Booking> bookings = repository.findAllByAdvertApartmentAdvertsBookings(entity);
+    Advert advert = advertRepository.findById(dtoRq.getAdvertId()).orElseThrow();
+    Apartment apartment = advert.getApartment();
+    List<Advert> adverts = apartment.getAdverts();
+    List<Booking> bookingList = adverts.stream()
+        .flatMap(advert1 -> advert1.getBookings().stream())
+        .toList();
+
+//    List<Booking> bookings = repository.findAllByAdvertApartmentAdvertsBookings(entity);
 
     LocalDate startDate = entity.getDateStart();
     LocalDate finishDate = entity.getDateFinish();
 
-    for (Booking booking : bookings) {
-      if (finishDate.isAfter(booking.getDateStart())
-          && startDate.isBefore(booking.getDateFinish())) {
+    System.out.println(bookingList);
+
+    for (Booking elem : bookingList) {
+      if (finishDate.isAfter(elem.getDateStart())
+          && startDate.isBefore(elem.getDateFinish())) {
         throw new RuntimeException();
       }
     }
