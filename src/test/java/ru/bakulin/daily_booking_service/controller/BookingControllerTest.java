@@ -102,7 +102,7 @@ class BookingControllerTest {
   @DisplayName("Неуспешное бронирование при существующем бронировании\n"
       + "  на эти даты: с 05.10 по 06.10")
   @Sql(value = {"classpath:clear-table.sql", "classpath:test-booking-controller.sql"})
-  public void notSuccessBookingOnDataBetween05To06() {
+  public void notSuccessBookingOnDataBetween0510To0610() {
 
     ClientDto clientDto = ClientDto.builder()
         .id(1)
@@ -122,12 +122,60 @@ class BookingControllerTest {
         .post()
         .then()
         .spec(responseSpecification)
-        .statusCode(500)
-        .extract()
-        .body()
-        .as(RuntimeException.class);
-
-    Assertions.assertThrows(RuntimeException.class, RuntimeException::new);
+        .statusCode(500);
   }
 
+  @Test
+  @DisplayName("Неуспешное бронирование при существующем бронировании\n"
+      + "  на эти даты: с 29.09 по 02.10")
+  @Sql(value = {"classpath:clear-table.sql", "classpath:test-booking-controller.sql"})
+  public void notSuccessBookingOnDataBetween2909To0210() {
+
+    ClientDto clientDto = ClientDto.builder()
+        .id(1)
+        .name("Petr")
+        .email("mail@mail.ru")
+        .build();
+
+    BookingDtoRq request = BookingDtoRq.builder()
+        .client(clientDto)
+        .advertId(1)
+        .dateStart(LocalDate.of(2025, 9, 29))
+        .dateFinish(LocalDate.of(2025, 10, 2))
+        .build();
+
+    RestAssured.given(requestSpecification)
+        .body(request)
+        .post()
+        .then()
+        .spec(responseSpecification)
+        .statusCode(500);
+  }
+
+  @Test
+  @DisplayName("Неуспешное бронирование при существующем бронировании\n"
+      + "  на эти даты: с с 09.10 по 11.10")
+  @Sql(value = {"classpath:clear-table.sql", "classpath:test-booking-controller.sql"})
+  public void notSuccessBookingOnDataBetween0910To1110() {
+
+    ClientDto clientDto = ClientDto.builder()
+        .id(1)
+        .name("Petr")
+        .email("mail@mail.ru")
+        .build();
+
+    BookingDtoRq request = BookingDtoRq.builder()
+        .client(clientDto)
+        .advertId(1)
+        .dateStart(LocalDate.of(2025, 10, 9))
+        .dateFinish(LocalDate.of(2025, 10, 11))
+        .build();
+
+    RestAssured.given(requestSpecification)
+        .body(request)
+        .post()
+        .then()
+        .spec(responseSpecification)
+        .statusCode(500);
+  }
 }
