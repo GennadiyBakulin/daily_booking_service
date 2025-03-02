@@ -29,7 +29,7 @@ public class ClientController {
   )
   @DeleteMapping("/{id}")
   public void deleteClient(
-      @PathVariable @Parameter(description = "Идентификатор клиента", example = "1") Integer id
+      @PathVariable @Parameter(description = "Идентификатор клиента", example = "1", required = true) Integer id
   ) {
     service.delete(id);
   }
