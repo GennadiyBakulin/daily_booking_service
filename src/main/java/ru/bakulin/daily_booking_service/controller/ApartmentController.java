@@ -15,7 +15,7 @@ import ru.bakulin.daily_booking_service.dto.ApartmentDto;
 import ru.bakulin.daily_booking_service.service.ApartmentService;
 
 @Tag(name = "Apartment Controller",
-    description = "API для создания помещений")
+    description = "API для работы с помещениями")
 @RestController
 @RequestMapping("/apartment")
 @RequiredArgsConstructor
@@ -25,7 +25,7 @@ public class ApartmentController {
 
   @Operation(
       summary = "Создание нового помещения в БД",
-      description = "Возвращает вновь созданное помещение в БД")
+      description = "Сохраняет и возвращает вновь созданное помещение в БД")
   @ApiResponse(
       responseCode = "200",
       description = "Успешное сохранение помещения в БД",

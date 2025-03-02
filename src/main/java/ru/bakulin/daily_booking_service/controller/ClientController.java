@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.bakulin.daily_booking_service.service.ClientService;
 
 @Tag(name = "Client Controller",
-    description = "API для удаления клиентов")
+    description = "API для работы с клиентами")
 @RestController
 @RequestMapping("/client")
 @RequiredArgsConstructor
