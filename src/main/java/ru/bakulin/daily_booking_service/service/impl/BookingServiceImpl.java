@@ -65,8 +65,8 @@ public class BookingServiceImpl implements BookingService {
     System.out.println(bookingList);
 
     for (Booking elem : bookingList) {
-      if (finishDate.isAfter(elem.getDateStart())
-          && startDate.isBefore(elem.getDateFinish())) {
+      if (!finishDate.isBefore(elem.getDateStart())
+          && !startDate.isAfter(elem.getDateFinish())) {
         throw new UnavailableBookingPeriod("Бронирование помещения на данный период не доступно.");
       }
     }
