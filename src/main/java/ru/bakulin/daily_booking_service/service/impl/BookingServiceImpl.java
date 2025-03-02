@@ -12,8 +12,6 @@ import ru.bakulin.daily_booking_service.dto.BookingDtoRq;
 import ru.bakulin.daily_booking_service.dto.BookingDtoRs;
 import ru.bakulin.daily_booking_service.dto.ClientDto;
 import ru.bakulin.daily_booking_service.dto.PaginationDto;
-import ru.bakulin.daily_booking_service.entity.Advert;
-import ru.bakulin.daily_booking_service.entity.Apartment;
 import ru.bakulin.daily_booking_service.entity.Booking;
 import ru.bakulin.daily_booking_service.exception.NotFound;
 import ru.bakulin.daily_booking_service.exception.UnavailableBookingPeriod;
@@ -35,8 +33,8 @@ public class BookingServiceImpl implements BookingService {
   private final BookingRepository repository;
   private final BookingMapper mapper;
 
-  @Override
   @Transactional
+  @Override
   public BookingDtoRs save(BookingDtoRq dtoRq) {
     ClientDto client = dtoRq.getClient();
 
@@ -48,28 +46,11 @@ public class BookingServiceImpl implements BookingService {
       dtoRq.setClient(clientService.save(client));
     }
 
+    checkFreeBookingPeriod(dtoRq);
+
     Booking entity = mapper.toEntityWithRelation(dtoRq);
-
-    Advert advert = advertRepository.findById(dtoRq.getAdvertId()).orElseThrow();
-    Apartment apartment = advert.getApartment();
-    List<Advert> adverts = apartment.getAdverts();
-    List<Booking> bookingList = adverts.stream()
-        .flatMap(advert1 -> advert1.getBookings().stream())
-        .toList();
-
-    LocalDate startDate = entity.getDateStart();
-    LocalDate finishDate = entity.getDateFinish();
-
-    System.out.println(bookingList);
-
-    for (Booking elem : bookingList) {
-      if (!finishDate.isBefore(elem.getDateStart())
-          && !startDate.isAfter(elem.getDateFinish())) {
-        throw new UnavailableBookingPeriod("Бронирование помещения на данный период не доступно.");
-      }
-    }
-
     Booking booking = repository.save(entity);
+
     return mapper.toDtoRs(booking);
   }
 
@@ -82,5 +63,18 @@ public class BookingServiceImpl implements BookingService {
     Page<Booking> page = repository.findAllByClientEmail(email, pageRequest);
 
     return mapper.toPaginationDto(page);
+  }
+
+  private void checkFreeBookingPeriod(BookingDtoRq dtoRq) {
+    LocalDate startDate = dtoRq.getDateStart();
+    LocalDate finishDate = dtoRq.getDateFinish();
+    List<Booking> bookings = repository.findAllForCurrentApartment(dtoRq.getAdvertId());
+
+    for (Booking booking : bookings) {
+      if (!finishDate.isBefore(booking.getDateStart())
+          && !startDate.isAfter(booking.getDateFinish())) {
+        throw new UnavailableBookingPeriod("Бронирование помещения на данный период не доступно.");
+      }
+    }
   }
 }
