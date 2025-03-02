@@ -19,6 +19,7 @@ import ru.bakulin.daily_booking_service.entity.ApartmentType;
 
 @Slf4j
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
+@Sql(value = "classpath:clear-table.sql", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(value = "classpath:clear-table.sql", executionPhase = ExecutionPhase.AFTER_TEST_CLASS)
 class ApartmentControllerTest {
 

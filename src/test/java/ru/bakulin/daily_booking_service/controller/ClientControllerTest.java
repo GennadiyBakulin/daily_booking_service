@@ -14,10 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import ru.bakulin.daily_booking_service.repository.BookingRepository;
 
 @Slf4j
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
+@Sql(value = "classpath:clear-table.sql", executionPhase = ExecutionPhase.BEFORE_TEST_CLASS)
 class ClientControllerTest {
 
   @Autowired
@@ -35,7 +37,7 @@ class ClientControllerTest {
 
   @Test
   @DisplayName("Успешное удалении клиента и всех его бронирований")
-  @Sql(value = {"classpath:clear-table.sql", "classpath:test-client-controller.sql"})
+  @Sql(value = "classpath:test-client-controller.sql")
   public void successDeleteClientWithHisBookings() {
 
     int startNumberBooking = bookingRepository.findAllByClientId(1).size();

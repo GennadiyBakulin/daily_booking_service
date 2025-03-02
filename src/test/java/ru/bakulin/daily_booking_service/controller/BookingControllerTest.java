@@ -21,6 +21,8 @@ import ru.bakulin.daily_booking_service.dto.ClientDto;
 
 @Slf4j
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
+@Sql(value = {"classpath:clear-table.sql",
+    "classpath:test-booking-controller.sql"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(value = "classpath:clear-table.sql", executionPhase = ExecutionPhase.AFTER_TEST_CLASS)
 class BookingControllerTest {
 
@@ -36,7 +38,6 @@ class BookingControllerTest {
 
   @Test
   @DisplayName("Успешное бронирование, при незаполненности id у клиента")
-  @Sql(value = {"classpath:clear-table.sql", "classpath:test-booking-controller.sql"})
   public void successBookingIfClientIdIsNull() {
 
     ClientDto clientDto = ClientDto.builder()
@@ -68,7 +69,6 @@ class BookingControllerTest {
 
   @Test
   @DisplayName("Успешное бронирование, при указанном id у клиента")
-  @Sql(value = {"classpath:clear-table.sql", "classpath:test-booking-controller.sql"})
   public void successBookingIfClientIdIsNotNull() {
 
     ClientDto clientDto = ClientDto.builder()
@@ -101,7 +101,6 @@ class BookingControllerTest {
   @Test
   @DisplayName("Неуспешное бронирование при существующем бронировании\n"
       + "  на эти даты: с 05.10 по 06.10")
-  @Sql(value = {"classpath:clear-table.sql", "classpath:test-booking-controller.sql"})
   public void notSuccessBookingOnDataBetween0510To0610() {
 
     ClientDto clientDto = ClientDto.builder()
@@ -128,7 +127,6 @@ class BookingControllerTest {
   @Test
   @DisplayName("Неуспешное бронирование при существующем бронировании\n"
       + "  на эти даты: с 29.09 по 02.10")
-  @Sql(value = {"classpath:clear-table.sql", "classpath:test-booking-controller.sql"})
   public void notSuccessBookingOnDataBetween2909To0210() {
 
     ClientDto clientDto = ClientDto.builder()
@@ -155,7 +153,6 @@ class BookingControllerTest {
   @Test
   @DisplayName("Неуспешное бронирование при существующем бронировании\n"
       + "  на эти даты: с с 09.10 по 11.10")
-  @Sql(value = {"classpath:clear-table.sql", "classpath:test-booking-controller.sql"})
   public void notSuccessBookingOnDataBetween0910To1110() {
 
     ClientDto clientDto = ClientDto.builder()

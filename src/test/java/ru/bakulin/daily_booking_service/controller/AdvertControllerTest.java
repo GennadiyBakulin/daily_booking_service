@@ -27,6 +27,8 @@ import ru.bakulin.daily_booking_service.service.ApartmentService;
 
 @Slf4j
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
+@Sql(value = {"classpath:clear-table.sql",
+    "classpath:test-advert-controller.sql"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(value = "classpath:clear-table.sql", executionPhase = ExecutionPhase.AFTER_TEST_CLASS)
 class AdvertControllerTest {
 
@@ -45,7 +47,6 @@ class AdvertControllerTest {
 
   @Test
   @DisplayName("Успешное сохранение Объявления в БД")
-  @Sql(value = "classpath:clear-table.sql")
   public void successSaveAdvert() {
 
     ApartmentDto apartmentDto = ApartmentDto.builder()
@@ -83,7 +84,6 @@ class AdvertControllerTest {
 
   @Test
   @DisplayName("Успешное получение списка Объявлений по 10 штук по городу Barnaul из БД")
-  @Sql(value = {"classpath:clear-table.sql", "classpath:test-advert-controller.sql"})
   public void successGetPaginationAdverts() {
 
     PaginationDto<AdvertDtoRs> response = getAdvertsForCity("Barnaul", 0);
@@ -96,7 +96,6 @@ class AdvertControllerTest {
 
   @Test
   @DisplayName("Успешная сортировка списка Объявлений по убывающей цене")
-  @Sql(value = {"classpath:clear-table.sql", "classpath:test-advert-controller.sql"})
   public void successOrderAdvertsByPriceDesc() {
 
     List<AdvertDtoRs> adverts = getAdvertsForCity("Barnaul", 0).getContent();
