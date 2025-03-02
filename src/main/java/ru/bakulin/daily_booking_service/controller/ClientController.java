@@ -1,6 +1,7 @@
 package ru.bakulin.daily_booking_service.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,9 @@ public class ClientController {
       description = "Успешное удаление клиента из БД"
   )
   @DeleteMapping("/{id}")
-  public void deleteClient(@PathVariable Integer id) {
+  public void deleteClient(
+      @PathVariable @Parameter(description = "Идентификатор клиента", example = "1") Integer id
+  ) {
     service.delete(id);
   }
 }

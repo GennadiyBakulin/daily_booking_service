@@ -1,6 +1,7 @@
 package ru.bakulin.daily_booking_service.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -79,8 +80,9 @@ public class BookingController {
   )
   @GetMapping
   public PaginationDto<BookingDtoRs> getBookingsForClientByEmail(
-      @RequestParam String email,
-      @RequestParam(required = false) Integer page) {
+      @RequestParam @Parameter(description = "email клиента", required = true) String email,
+      @RequestParam(required = false) @Parameter(description = "Номер страницы", example = "1") Integer page
+  ) {
 
     return service.getBookingsForClientByEmail(email, page);
   }

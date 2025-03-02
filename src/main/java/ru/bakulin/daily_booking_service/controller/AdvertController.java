@@ -1,6 +1,7 @@
 package ru.bakulin.daily_booking_service.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -70,8 +71,10 @@ public class AdvertController {
       }
   )
   @GetMapping
-  public PaginationDto<AdvertDtoRs> getAdvertForCity(@RequestParam String city,
-      @RequestParam(required = false) Integer page) {
+  public PaginationDto<AdvertDtoRs> getAdvertForCity(
+      @RequestParam @Parameter(description = "Наименование города", required = true) String city,
+      @RequestParam(required = false) @Parameter(description = "Номер страницы", example = "1") Integer page
+  ) {
 
     return service.getAdvertsForCity(city, page);
   }
