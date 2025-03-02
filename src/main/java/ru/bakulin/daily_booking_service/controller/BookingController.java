@@ -1,6 +1,14 @@
 package ru.bakulin.daily_booking_service.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +20,8 @@ import ru.bakulin.daily_booking_service.dto.BookingDtoRs;
 import ru.bakulin.daily_booking_service.dto.PaginationDto;
 import ru.bakulin.daily_booking_service.service.BookingService;
 
+@Tag(name = "Booking Controller",
+    description = "API для работы с бронированиями")
 @RestController
 @RequestMapping("/booking")
 @RequiredArgsConstructor
@@ -19,11 +29,54 @@ public class BookingController {
 
   private final BookingService service;
 
+  @Operation(
+      summary = "Создает новую бронь",
+      description = "Создает и возвращает новое бронирование в БД")
+  @ApiResponses(
+      value = {
+          @ApiResponse(
+              responseCode = "200",
+              description = "Успешное создание и сохранение брони",
+              content = {
+                  @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                      schema = @Schema(implementation = BookingDtoRs.class))
+              }
+          ),
+          @ApiResponse(
+              responseCode = "400",
+              description = "Отмена создания брони в случае если по переданному помещению на указанные даты все занято",
+              content = {
+                  @Content(mediaType = MediaType.TEXT_PLAIN_VALUE,
+                      schema = @Schema(implementation = String.class))
+              }
+          ),
+          @ApiResponse(
+              responseCode = "404",
+              description = "Отмена создания брони в случае если не найден переданные клиент или объявление по Id",
+              content = {
+                  @Content(mediaType = MediaType.TEXT_PLAIN_VALUE,
+                      schema = @Schema(implementation = String.class))
+              }
+          )
+      }
+  )
   @PostMapping
   public BookingDtoRs create(@RequestBody BookingDtoRq dto) {
     return service.save(dto);
   }
 
+  @Operation(
+      summary = "Постраничное получение списка бронирований",
+      description = "Получает список бронирований по переданному email клиента по 20 штук")
+  @ApiResponse(
+      responseCode = "200",
+      description = "Успешное получение списка бронирований",
+      content = {
+          @Content(mediaType = "application/json",
+              array = @ArraySchema(schema = @Schema(implementation = PaginationDto.class))
+          )
+      }
+  )
   @GetMapping
   public PaginationDto<BookingDtoRs> getBookingsForClientByEmail(
       @RequestParam String email,
