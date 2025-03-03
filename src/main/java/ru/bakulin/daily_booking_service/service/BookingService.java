@@ -8,5 +8,5 @@ public interface BookingService {
 
   BookingDtoRs save(BookingDtoRq dtoRq);
 
-  PageDto<BookingDtoRs> getBookingsForClientByEmail(String email, Integer pageNumber);
+  PageDto<BookingDtoRs> findAllByClientEmail(String email, Integer pageNumber);
 }

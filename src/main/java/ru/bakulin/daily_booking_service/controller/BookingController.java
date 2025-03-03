@@ -84,6 +84,6 @@ public class BookingController {
       @RequestParam(required = false) @Parameter(description = "Номер страницы", example = "1") Integer page
   ) {
 
-    return service.getBookingsForClientByEmail(email, page);
+    return service.findAllByClientEmail(email, page);
   }
 }

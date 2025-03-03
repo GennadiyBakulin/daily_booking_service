@@ -55,7 +55,7 @@ public class BookingServiceImpl implements BookingService {
   }
 
   @Override
-  public PageDto<BookingDtoRs> getBookingsForClientByEmail(String email, Integer pageNumber) {
+  public PageDto<BookingDtoRs> findAllByClientEmail(String email, Integer pageNumber) {
     if (Objects.isNull(pageNumber)) {
       pageNumber = 0;
     }
