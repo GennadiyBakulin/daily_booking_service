@@ -79,7 +79,7 @@ public class BookingController {
       }
   )
   @GetMapping
-  public PageDto<BookingDtoRs> getBookingsForClientByEmail(
+  public PageDto<BookingDtoRs> findAllByClientEmail(
       @RequestParam @Parameter(description = "email клиента", required = true) String email,
       @RequestParam(required = false) @Parameter(description = "Номер страницы", example = "1") Integer page
   ) {

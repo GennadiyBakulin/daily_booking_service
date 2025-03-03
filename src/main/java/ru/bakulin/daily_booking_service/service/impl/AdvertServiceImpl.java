@@ -32,7 +32,7 @@ public class AdvertServiceImpl implements AdvertService {
   }
 
   @Override
-  public PageDto<AdvertDtoRs> getAdvertsForCity(String city, Integer pageNumber) {
+  public PageDto<AdvertDtoRs> findAllByCity(String city, Integer pageNumber) {
     if (Objects.isNull(pageNumber)) {
       pageNumber = 0;
     }

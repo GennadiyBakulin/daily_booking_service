@@ -71,11 +71,11 @@ public class AdvertController {
       }
   )
   @GetMapping
-  public PageDto<AdvertDtoRs> getAdvertForCity(
+  public PageDto<AdvertDtoRs> findAllByCity(
       @RequestParam @Parameter(description = "Наименование города", required = true) String city,
       @RequestParam(required = false) @Parameter(description = "Номер страницы", example = "1") Integer page
   ) {
 
-    return service.getAdvertsForCity(city, page);
+    return service.findAllByCity(city, page);
   }
 }

@@ -8,5 +8,5 @@ public interface AdvertService {
 
   AdvertDtoRs save(AdvertDtoRq dto);
 
-  PageDto<AdvertDtoRs> getAdvertsForCity(String city, Integer pageNumber);
+  PageDto<AdvertDtoRs> findAllByCity(String city, Integer pageNumber);
 }
