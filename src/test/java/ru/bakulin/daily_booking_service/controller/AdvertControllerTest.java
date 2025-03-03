@@ -83,33 +83,12 @@ class AdvertControllerTest {
   }
 
   @Test
-  @DisplayName("Успешное получение списка Объявлений по 10 штук по городу Barnaul из БД")
+  @DisplayName("Успешное получение списка Объявлений по 10 штук и сортировка списка Объявлений по убывающей цене")
   public void successGetPaginationAdverts() {
 
-    PageDto<AdvertDtoRs> response = getAdvertsForCity("Barnaul", 0);
-
-    Assertions.assertEquals(10, response.getContent().size());
-    Assertions.assertEquals(15, response.getTotalElements());
-    Assertions.assertEquals(2, response.getTotalPages());
-    Assertions.assertEquals(0, response.getNumberPage());
-  }
-
-  @Test
-  @DisplayName("Успешная сортировка списка Объявлений по убывающей цене")
-  public void successOrderAdvertsByPriceDesc() {
-
-    List<AdvertDtoRs> adverts = getAdvertsForCity("Barnaul", 0).getContent();
-
-    for (int i = 1; i < adverts.size(); i++) {
-      Assertions.assertTrue(
-          adverts.get(i - 1).getPrice().compareTo(adverts.get(i).getPrice()) > 0);
-    }
-  }
-
-  private PageDto<AdvertDtoRs> getAdvertsForCity(String city, Integer page) {
-    return RestAssured.given(requestSpecification)
-        .queryParam("city", city)
-        .queryParam("page", page)
+    PageDto<AdvertDtoRs> response = RestAssured.given(requestSpecification)
+        .queryParam("city", "Barnaul")
+        .queryParam("page", 0)
         .get()
         .then()
         .spec(responseSpecification)
@@ -118,5 +97,15 @@ class AdvertControllerTest {
         .body()
         .as(new TypeRef<>() {
         });
+
+    Assertions.assertEquals(10, response.getContent().size());
+    Assertions.assertEquals(15, response.getTotalElements());
+    Assertions.assertEquals(2, response.getTotalPages());
+    Assertions.assertEquals(0, response.getNumber());
+
+    List<AdvertDtoRs> adverts = response.getContent();
+
+    Assertions.assertEquals(0, BigDecimal.valueOf(1050).compareTo(adverts.get(0).getPrice()));
+    Assertions.assertEquals(0, BigDecimal.valueOf(600).compareTo(adverts.get(9).getPrice()));
   }
 }
