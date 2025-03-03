@@ -6,7 +6,9 @@ import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -96,6 +98,12 @@ class BookingControllerTest {
 
     Assertions.assertEquals(request.getClient(), response.getClient());
     Assertions.assertNotNull(response.getId());
+
+    BigDecimal price = response.getAdvert().getPrice();
+    long periodBooking = ChronoUnit.DAYS.between(response.getDateStart(), response.getDateFinish());
+    BigDecimal expectedResultPrice = price.multiply(BigDecimal.valueOf(periodBooking));
+
+    Assertions.assertEquals(expectedResultPrice, response.getResultPrice());
   }
 
   @Test
