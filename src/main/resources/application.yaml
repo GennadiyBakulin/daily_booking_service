@@ -19,6 +19,3 @@ logging:
         orm:
           jdbc:
             bind: TRACE
-
-test:
-  schema-name: test
