@@ -1,8 +1,5 @@
 package ru.bakulin.daily_booking_service.mapper;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -16,7 +13,6 @@ import ru.bakulin.daily_booking_service.dto.PageDto;
 import ru.bakulin.daily_booking_service.entity.Advert;
 import ru.bakulin.daily_booking_service.entity.Booking;
 import ru.bakulin.daily_booking_service.exception.EntityNotFound;
-import ru.bakulin.daily_booking_service.exception.UnavailableBookingPeriod;
 import ru.bakulin.daily_booking_service.repository.AdvertRepository;
 import ru.bakulin.daily_booking_service.repository.ClientRepository;
 
@@ -32,7 +28,7 @@ public abstract class BookingMapper {
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "client.bookings", ignore = true)
   @Mapping(target = "advert", source = "advertId", qualifiedByName = "getAdvertById")
-  @Mapping(target = "amount", source = "dto", qualifiedByName = "getResultPrice")
+  @Mapping(target = "amount", ignore = true)
   public abstract Booking toEntityWithRelation(BookingDtoRq dto);
 
   @Mapping(source = "amount", target = "resultPrice")
@@ -44,27 +40,6 @@ public abstract class BookingMapper {
         () -> new EntityNotFound("Объявление с указанным Id= %s не найдено в БД".formatted(id))
     );
   }
-
-  @Named("getResultPrice")
-  protected BigDecimal getResultPrice(BookingDtoRq dto) {
-    Advert advert = getAdvertById(dto.getAdvertId());
-
-    LocalDate start = dto.getDateStart();
-    LocalDate finish = dto.getDateFinish();
-
-    checkCorrectInputPeriodBooking(start, finish);
-    long countDayBooking = ChronoUnit.DAYS.between(start, finish);
-
-    return advert.getPrice().multiply(BigDecimal.valueOf(countDayBooking));
-  }
-
-  private void checkCorrectInputPeriodBooking(LocalDate start, LocalDate finish) {
-    if (start.isAfter(finish)) {
-      throw new UnavailableBookingPeriod(
-          "Ошибка в указании периода бронирования. Дата окончания бронирования ранее даты начала бронирования.");
-    }
-  }
-
 
   @Mapping(target = "totalPages", source = "page", qualifiedByName = "getTotalPages")
   @Mapping(target = "totalElements", source = "page", qualifiedByName = "getTotalElements")
