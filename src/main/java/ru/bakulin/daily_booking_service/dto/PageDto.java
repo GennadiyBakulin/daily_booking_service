@@ -20,7 +20,7 @@ public class PageDto<T> {
   @Schema(description = "Общее количество страниц", example = "10")
   private int totalPages;
 
-  @JsonProperty("number_page")
+  @JsonProperty("number")
   @Schema(description = "Номер текущей страницы", example = "1")
-  private int numberPage;
+  private int number;
 }

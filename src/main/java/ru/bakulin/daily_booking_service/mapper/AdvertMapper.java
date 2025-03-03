@@ -1,6 +1,5 @@
 package ru.bakulin.daily_booking_service.mapper;
 
-import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
@@ -26,38 +25,13 @@ public abstract class AdvertMapper {
   @Mapping(target = "apartment", source = "apartmentId", qualifiedByName = "getApartmentById")
   public abstract Advert toEntityWithRelation(AdvertDtoRq dto);
 
+  public abstract AdvertDtoRs toDtoRs(Advert advert);
+
+  public abstract PageDto<AdvertDtoRs> toPageDto(Page<Advert> page);
+
   @Named("getApartmentById")
   protected Apartment getApartmentById(Integer id) {
     return apartmentRepository.findById(id).orElseThrow(
         () -> new EntityNotFound("Помещение с указанным Id= %s не найдено в БД".formatted(id)));
-  }
-
-  public abstract AdvertDtoRs toDtoRs(Advert advert);
-
-  @Mapping(target = "totalPages", source = "page", qualifiedByName = "getTotalPages")
-  @Mapping(target = "totalElements", source = "page", qualifiedByName = "getTotalElements")
-  @Mapping(target = "numberPage", source = "page", qualifiedByName = "getNumberPage")
-  @Mapping(target = "content", source = "page", qualifiedByName = "getContent")
-  public abstract PageDto<AdvertDtoRs> toPageDto(Page<Advert> page);
-
-  @Named("getTotalPages")
-  protected int getTotalPages(Page<Advert> page) {
-    return page.getTotalPages();
-  }
-
-  @Named("getTotalElements")
-  protected long getTotalElements(Page<Advert> page) {
-    return page.getTotalElements();
-  }
-
-  @Named("getNumberPage")
-  protected int getNumberPage(Page<Advert> page) {
-    return page.getNumber();
-  }
-
-  @Named("getContent")
-  protected List<AdvertDtoRs> getContent(Page<Advert> page) {
-    List<Advert> adverts = page.getContent();
-    return adverts.stream().map(this::toDtoRs).toList();
   }
 }
