@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import ru.bakulin.daily_booking_service.dto.AdvertDtoRq;
 import ru.bakulin.daily_booking_service.dto.AdvertDtoRs;
-import ru.bakulin.daily_booking_service.dto.PaginationDto;
+import ru.bakulin.daily_booking_service.dto.PageDto;
 import ru.bakulin.daily_booking_service.entity.Advert;
 import ru.bakulin.daily_booking_service.entity.Apartment;
 import ru.bakulin.daily_booking_service.exception.NotFound;
@@ -38,7 +38,7 @@ public abstract class AdvertMapper {
   @Mapping(target = "totalElements", source = "page", qualifiedByName = "getTotalElements")
   @Mapping(target = "numberPage", source = "page", qualifiedByName = "getNumberPage")
   @Mapping(target = "content", source = "page", qualifiedByName = "getContent")
-  public abstract PaginationDto<AdvertDtoRs> toPaginationDto(Page<Advert> page);
+  public abstract PageDto<AdvertDtoRs> toPageDto(Page<Advert> page);
 
   @Named("getTotalPages")
   protected int getTotalPages(Page<Advert> page) {

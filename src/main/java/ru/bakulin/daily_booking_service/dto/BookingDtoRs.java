@@ -11,32 +11,26 @@ import lombok.Data;
 @Schema(description = "Сущность Бронирование (ответ)")
 public class BookingDtoRs {
 
-  @Schema(description = "Уникальный идентификатор Бронирования", example = "0",
-      accessMode = Schema.AccessMode.READ_ONLY)
+  @Schema(description = "Уникальный идентификатор Бронирования", example = "0")
   private Integer id;
 
-  @Schema(description = "Сущность Клиент", contentSchema = ClientDto.class,
-      accessMode = Schema.AccessMode.READ_ONLY)
+  @Schema(description = "Сущность Клиент", contentSchema = ClientDto.class)
   private ClientDto client;
 
-  @Schema(description = "Сущность Объявление", contentSchema = AdvertDtoRs.class,
-      accessMode = Schema.AccessMode.READ_ONLY)
+  @Schema(description = "Сущность Объявление", contentSchema = AdvertDtoRs.class)
   private AdvertDtoRs advert;
 
   @JsonProperty("date_start")
   @JsonFormat(pattern = "yyyy-MM-dd")
-  @Schema(description = "Дата начала бронирования", example = "2025-02-13",
-      accessMode = Schema.AccessMode.READ_ONLY)
+  @Schema(description = "Дата начала бронирования", example = "2025-02-13")
   private LocalDate dateStart;
 
   @JsonProperty("date_finish")
   @JsonFormat(pattern = "yyyy-MM-dd")
-  @Schema(description = "Дата окончания бронирования", example = "2025-02-13",
-      accessMode = Schema.AccessMode.READ_ONLY)
+  @Schema(description = "Дата окончания бронирования", example = "2025-02-13")
   private LocalDate dateFinish;
 
   @JsonProperty("result_price")
-  @Schema(description = "Результирующая цена бронирования", example = "100",
-      accessMode = Schema.AccessMode.READ_ONLY)
+  @Schema(description = "Результирующая цена бронирования", example = "100")
   private BigDecimal resultPrice;
 }

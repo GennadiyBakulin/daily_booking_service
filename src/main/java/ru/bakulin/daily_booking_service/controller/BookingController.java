@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.bakulin.daily_booking_service.dto.BookingDtoRq;
 import ru.bakulin.daily_booking_service.dto.BookingDtoRs;
-import ru.bakulin.daily_booking_service.dto.PaginationDto;
+import ru.bakulin.daily_booking_service.dto.PageDto;
 import ru.bakulin.daily_booking_service.service.BookingService;
 
 @Tag(name = "Booking Controller",
@@ -74,12 +74,12 @@ public class BookingController {
       description = "Успешное получение списка бронирований",
       content = {
           @Content(mediaType = "application/json",
-              array = @ArraySchema(schema = @Schema(implementation = PaginationDto.class))
+              array = @ArraySchema(schema = @Schema(implementation = PageDto.class))
           )
       }
   )
   @GetMapping
-  public PaginationDto<BookingDtoRs> getBookingsForClientByEmail(
+  public PageDto<BookingDtoRs> getBookingsForClientByEmail(
       @RequestParam @Parameter(description = "email клиента", required = true) String email,
       @RequestParam(required = false) @Parameter(description = "Номер страницы", example = "1") Integer page
   ) {

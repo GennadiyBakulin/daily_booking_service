@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import ru.bakulin.daily_booking_service.dto.BookingDtoRq;
 import ru.bakulin.daily_booking_service.dto.BookingDtoRs;
-import ru.bakulin.daily_booking_service.dto.PaginationDto;
+import ru.bakulin.daily_booking_service.dto.PageDto;
 import ru.bakulin.daily_booking_service.entity.Advert;
 import ru.bakulin.daily_booking_service.entity.Booking;
 import ru.bakulin.daily_booking_service.exception.NotFound;
@@ -65,11 +65,12 @@ public abstract class BookingMapper {
     }
   }
 
+
   @Mapping(target = "totalPages", source = "page", qualifiedByName = "getTotalPages")
   @Mapping(target = "totalElements", source = "page", qualifiedByName = "getTotalElements")
   @Mapping(target = "numberPage", source = "page", qualifiedByName = "getNumberPage")
   @Mapping(target = "content", source = "page", qualifiedByName = "getContent")
-  public abstract PaginationDto<BookingDtoRs> toPaginationDto(Page<Booking> page);
+  public abstract PageDto<BookingDtoRs> toPageDto(Page<Booking> page);
 
   @Named("getTotalPages")
   protected int getTotalPages(Page<Booking> page) {

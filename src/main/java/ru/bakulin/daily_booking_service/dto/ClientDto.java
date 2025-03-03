@@ -9,8 +9,7 @@ import lombok.Data;
 @Schema(description = "Сущность Клиент")
 public class ClientDto {
 
-  @Schema(description = "Уникальный идентификатор Клиента", example = "0",
-      nullable = true, accessMode = Schema.AccessMode.READ_ONLY)
+  @Schema(description = "Уникальный идентификатор Клиента", example = "0", nullable = true)
   private Integer id;
 
   @Schema(description = "Имя клиента", example = "Петр")

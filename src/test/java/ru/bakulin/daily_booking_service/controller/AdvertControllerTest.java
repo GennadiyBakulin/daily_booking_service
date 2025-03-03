@@ -21,7 +21,7 @@ import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import ru.bakulin.daily_booking_service.dto.AdvertDtoRq;
 import ru.bakulin.daily_booking_service.dto.AdvertDtoRs;
 import ru.bakulin.daily_booking_service.dto.ApartmentDto;
-import ru.bakulin.daily_booking_service.dto.PaginationDto;
+import ru.bakulin.daily_booking_service.dto.PageDto;
 import ru.bakulin.daily_booking_service.entity.ApartmentType;
 import ru.bakulin.daily_booking_service.service.ApartmentService;
 
@@ -86,7 +86,7 @@ class AdvertControllerTest {
   @DisplayName("Успешное получение списка Объявлений по 10 штук по городу Barnaul из БД")
   public void successGetPaginationAdverts() {
 
-    PaginationDto<AdvertDtoRs> response = getAdvertsForCity("Barnaul", 0);
+    PageDto<AdvertDtoRs> response = getAdvertsForCity("Barnaul", 0);
 
     Assertions.assertEquals(10, response.getContent().size());
     Assertions.assertEquals(15, response.getTotalElements());
@@ -106,7 +106,7 @@ class AdvertControllerTest {
     }
   }
 
-  private PaginationDto<AdvertDtoRs> getAdvertsForCity(String city, Integer page) {
+  private PageDto<AdvertDtoRs> getAdvertsForCity(String city, Integer page) {
     return RestAssured.given(requestSpecification)
         .queryParam("city", city)
         .queryParam("page", page)

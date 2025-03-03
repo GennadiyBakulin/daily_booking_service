@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.bakulin.daily_booking_service.dto.BookingDtoRq;
 import ru.bakulin.daily_booking_service.dto.BookingDtoRs;
 import ru.bakulin.daily_booking_service.dto.ClientDto;
-import ru.bakulin.daily_booking_service.dto.PaginationDto;
+import ru.bakulin.daily_booking_service.dto.PageDto;
 import ru.bakulin.daily_booking_service.entity.Booking;
 import ru.bakulin.daily_booking_service.exception.NotFound;
 import ru.bakulin.daily_booking_service.exception.UnavailableBookingPeriod;
@@ -55,14 +55,14 @@ public class BookingServiceImpl implements BookingService {
   }
 
   @Override
-  public PaginationDto<BookingDtoRs> getBookingsForClientByEmail(String email, Integer pageNumber) {
+  public PageDto<BookingDtoRs> getBookingsForClientByEmail(String email, Integer pageNumber) {
     if (Objects.isNull(pageNumber)) {
       pageNumber = 0;
     }
     PageRequest pageRequest = PageRequest.of(pageNumber, PAGE_SIZE);
     Page<Booking> page = repository.findAllByClientEmail(email, pageRequest);
 
-    return mapper.toPaginationDto(page);
+    return mapper.toPageDto(page);
   }
 
   private void checkFreeBookingPeriod(BookingDtoRq dtoRq) {

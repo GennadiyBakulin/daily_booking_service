@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.bakulin.daily_booking_service.dto.AdvertDtoRq;
 import ru.bakulin.daily_booking_service.dto.AdvertDtoRs;
-import ru.bakulin.daily_booking_service.dto.PaginationDto;
+import ru.bakulin.daily_booking_service.dto.PageDto;
 import ru.bakulin.daily_booking_service.service.AdvertService;
 
 @Tag(name = "Advert Controller",
@@ -66,12 +66,12 @@ public class AdvertController {
       description = "Успешное получение списка",
       content = {
           @Content(mediaType = "application/json",
-              array = @ArraySchema(schema = @Schema(implementation = PaginationDto.class))
+              array = @ArraySchema(schema = @Schema(implementation = PageDto.class))
           )
       }
   )
   @GetMapping
-  public PaginationDto<AdvertDtoRs> getAdvertForCity(
+  public PageDto<AdvertDtoRs> getAdvertForCity(
       @RequestParam @Parameter(description = "Наименование города", required = true) String city,
       @RequestParam(required = false) @Parameter(description = "Номер страницы", example = "1") Integer page
   ) {
