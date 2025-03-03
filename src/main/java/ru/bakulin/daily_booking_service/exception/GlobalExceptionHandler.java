@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
   @ExceptionHandler
-  public ResponseEntity<String> catchNotFoundMovieById(NotFound ex) {
+  public ResponseEntity<String> catchNotFoundMovieById(EntityNotFound ex) {
     return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
   }
 

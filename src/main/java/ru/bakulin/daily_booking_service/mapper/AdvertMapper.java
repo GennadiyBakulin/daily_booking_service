@@ -12,7 +12,7 @@ import ru.bakulin.daily_booking_service.dto.AdvertDtoRs;
 import ru.bakulin.daily_booking_service.dto.PageDto;
 import ru.bakulin.daily_booking_service.entity.Advert;
 import ru.bakulin.daily_booking_service.entity.Apartment;
-import ru.bakulin.daily_booking_service.exception.NotFound;
+import ru.bakulin.daily_booking_service.exception.EntityNotFound;
 import ru.bakulin.daily_booking_service.repository.ApartmentRepository;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
@@ -29,7 +29,7 @@ public abstract class AdvertMapper {
   @Named("getApartmentById")
   protected Apartment getApartmentById(Integer id) {
     return apartmentRepository.findById(id).orElseThrow(
-        () -> new NotFound("Помещение с указанным Id= %s не найдено в БД".formatted(id)));
+        () -> new EntityNotFound("Помещение с указанным Id= %s не найдено в БД".formatted(id)));
   }
 
   public abstract AdvertDtoRs toDtoRs(Advert advert);

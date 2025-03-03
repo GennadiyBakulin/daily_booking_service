@@ -15,7 +15,7 @@ import ru.bakulin.daily_booking_service.dto.BookingDtoRs;
 import ru.bakulin.daily_booking_service.dto.PageDto;
 import ru.bakulin.daily_booking_service.entity.Advert;
 import ru.bakulin.daily_booking_service.entity.Booking;
-import ru.bakulin.daily_booking_service.exception.NotFound;
+import ru.bakulin.daily_booking_service.exception.EntityNotFound;
 import ru.bakulin.daily_booking_service.exception.UnavailableBookingPeriod;
 import ru.bakulin.daily_booking_service.repository.AdvertRepository;
 import ru.bakulin.daily_booking_service.repository.ClientRepository;
@@ -41,7 +41,7 @@ public abstract class BookingMapper {
   @Named("getAdvertById")
   protected Advert getAdvertById(Integer id) {
     return advertRepository.findById(id).orElseThrow(
-        () -> new NotFound("Объявление с указанным Id= %s не найдено в БД".formatted(id))
+        () -> new EntityNotFound("Объявление с указанным Id= %s не найдено в БД".formatted(id))
     );
   }
 

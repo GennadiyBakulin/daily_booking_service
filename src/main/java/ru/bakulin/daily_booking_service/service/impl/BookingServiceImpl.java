@@ -13,7 +13,7 @@ import ru.bakulin.daily_booking_service.dto.BookingDtoRs;
 import ru.bakulin.daily_booking_service.dto.ClientDto;
 import ru.bakulin.daily_booking_service.dto.PageDto;
 import ru.bakulin.daily_booking_service.entity.Booking;
-import ru.bakulin.daily_booking_service.exception.NotFound;
+import ru.bakulin.daily_booking_service.exception.EntityNotFound;
 import ru.bakulin.daily_booking_service.exception.UnavailableBookingPeriod;
 import ru.bakulin.daily_booking_service.mapper.BookingMapper;
 import ru.bakulin.daily_booking_service.repository.AdvertRepository;
@@ -39,7 +39,7 @@ public class BookingServiceImpl implements BookingService {
     ClientDto client = dtoRq.getClient();
 
     if (Objects.nonNull(client.getId()) && !clientRepository.existsById(client.getId())) {
-      throw new NotFound("Клиент с указанным Id= %s не найден в БД".formatted(client.getId()));
+      throw new EntityNotFound("Клиент с указанным Id= %s не найден в БД".formatted(client.getId()));
     }
 
     if (Objects.isNull(client.getId())) {
