@@ -2,7 +2,7 @@ insert into apartment
 values (1, 'Barnaul', 'Lenina', '46', 'ONLY_ROOM');
 
 insert into advert
-values (1, 100, true, 1, 'Описание объявления');
+values (1, 100, true, 1, 'Описание объявления 1');
 
 insert into client
 values (1, 'Petr', 'mail@mail.ru');
