@@ -3,7 +3,6 @@ package ru.bakulin.daily_booking_service.service.impl;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -97,13 +96,9 @@ public class BookingServiceImpl implements BookingService {
   private void checkFreeBookingPeriod(BookingDtoRq dtoRq) {
     LocalDate startDate = dtoRq.getDateStart();
     LocalDate finishDate = dtoRq.getDateFinish();
-    List<Booking> bookings = repository.findAllForCurrentApartment(dtoRq.getAdvertId());
 
-    for (Booking booking : bookings) {
-      if (!finishDate.isBefore(booking.getDateStart())
-          && !startDate.isAfter(booking.getDateFinish())) {
-        throw new UnavailableBookingPeriod("Бронирование помещения на данный период не доступно.");
-      }
+    if (repository.existsIntersectionWithBookings(dtoRq.getAdvertId(), startDate, finishDate)) {
+      throw new UnavailableBookingPeriod("Бронирование помещения на данный период не доступно.");
     }
   }
 }
