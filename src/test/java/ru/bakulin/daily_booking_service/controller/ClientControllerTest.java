@@ -37,7 +37,7 @@ class ClientControllerTest {
 
   @Test
   @DisplayName("Успешное удалении клиента и всех его бронирований")
-  @Sql(value = "classpath:test-client-controller.sql")
+  @Sql(value = {"classpath:clear-table.sql", "classpath:test-client-controller.sql"})
   public void successDeleteClientWithHisBookings() {
 
     int startNumberBooking = bookingRepository.findAllByClientId(1).size();

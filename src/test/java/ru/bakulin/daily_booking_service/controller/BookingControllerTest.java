@@ -13,20 +13,35 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
+import ru.bakulin.daily_booking_service.dto.AdvertDtoRq;
+import ru.bakulin.daily_booking_service.dto.AdvertDtoRs;
+import ru.bakulin.daily_booking_service.dto.ApartmentDto;
 import ru.bakulin.daily_booking_service.dto.BookingDtoRq;
 import ru.bakulin.daily_booking_service.dto.BookingDtoRs;
 import ru.bakulin.daily_booking_service.dto.ClientDto;
+import ru.bakulin.daily_booking_service.entity.ApartmentType;
+import ru.bakulin.daily_booking_service.service.AdvertService;
+import ru.bakulin.daily_booking_service.service.ApartmentService;
+import ru.bakulin.daily_booking_service.service.ClientService;
 
 @Slf4j
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
-@Sql(value = {"classpath:clear-table.sql",
-    "classpath:test-booking-controller.sql"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(value = "classpath:clear-table.sql", executionPhase = ExecutionPhase.AFTER_TEST_CLASS)
 class BookingControllerTest {
+
+  @Autowired
+  private ApartmentService apartmentService;
+
+  @Autowired
+  private AdvertService advertService;
+
+  @Autowired
+  private ClientService clientService;
 
   private final RequestSpecification requestSpecification = new RequestSpecBuilder()
       .setBasePath("/booking")
@@ -38,18 +53,35 @@ class BookingControllerTest {
       .log(LogDetail.ALL)
       .build();
 
+  private final ClientDto clientDto = ClientDto.builder()
+      .name("Gennadiy")
+      .email("my_email@yandex.ru")
+      .build();
+
+  private final ApartmentDto apartmentDto = ApartmentDto.builder()
+      .city("Barnaul")
+      .street("Lenina")
+      .house("46")
+      .apartmentType(ApartmentType.ONLY_ROOM)
+      .build();
+
   @Test
   @DisplayName("Успешное бронирование, при незаполненности id у клиента")
+  @Sql(value = "classpath:clear-table.sql")
   public void successBookingIfClientIdIsNull() {
+    ApartmentDto apartment = apartmentService.save(apartmentDto);
 
-    ClientDto clientDto = ClientDto.builder()
-        .name("Gennadiy")
-        .email("my_email@yandex.ru")
+    AdvertDtoRq advertDto = AdvertDtoRq.builder()
+        .price(BigDecimal.valueOf(100))
+        .isActive(true)
+        .apartmentId(apartment.getId())
+        .description("Описание объявления")
         .build();
+    AdvertDtoRs advert = advertService.save(advertDto);
 
     BookingDtoRq request = BookingDtoRq.builder()
         .client(clientDto)
-        .advertId(1)
+        .advertId(advert.getId())
         .dateStart(LocalDate.of(2025, 11, 1))
         .dateFinish(LocalDate.of(2025, 11, 10))
         .build();
@@ -67,21 +99,33 @@ class BookingControllerTest {
     Assertions.assertNotNull(response.getClient().getId());
     Assertions.assertEquals(request.getClient().getName(), response.getClient().getName());
     Assertions.assertEquals(request.getClient().getEmail(), response.getClient().getEmail());
+
+    BigDecimal price = response.getAdvert().getPrice();
+    long periodBooking = ChronoUnit.DAYS.between(response.getDateStart(), response.getDateFinish());
+    BigDecimal expectedResultPrice = price.multiply(BigDecimal.valueOf(periodBooking));
+
+    Assertions.assertEquals(expectedResultPrice, response.getResultPrice());
   }
 
   @Test
   @DisplayName("Успешное бронирование, при указанном id у клиента")
+  @Sql(value = "classpath:clear-table.sql")
   public void successBookingIfClientIdIsNotNull() {
+    ClientDto client = clientService.save(clientDto);
 
-    ClientDto clientDto = ClientDto.builder()
-        .id(1)
-        .name("Petr")
-        .email("mail@mail.ru")
+    ApartmentDto apartment = apartmentService.save(apartmentDto);
+
+    AdvertDtoRq advertDto = AdvertDtoRq.builder()
+        .price(BigDecimal.valueOf(100))
+        .isActive(true)
+        .apartmentId(apartment.getId())
+        .description("Описание объявления")
         .build();
+    AdvertDtoRs advert = advertService.save(advertDto);
 
     BookingDtoRq request = BookingDtoRq.builder()
-        .client(clientDto)
-        .advertId(1)
+        .client(client)
+        .advertId(advert.getId())
         .dateStart(LocalDate.of(2025, 11, 1))
         .dateFinish(LocalDate.of(2025, 11, 10))
         .build();
@@ -109,8 +153,8 @@ class BookingControllerTest {
   @Test
   @DisplayName("Неуспешное бронирование при существующем бронировании\n"
       + "  на эти даты: с 05.10 по 06.10")
+  @Sql(value = {"classpath:clear-table.sql", "classpath:test-booking-controller.sql"})
   public void notSuccessBookingOnDataBetween0510To0610() {
-
     ClientDto clientDto = ClientDto.builder()
         .id(1)
         .name("Petr")
@@ -135,8 +179,8 @@ class BookingControllerTest {
   @Test
   @DisplayName("Неуспешное бронирование при существующем бронировании\n"
       + "  на эти даты: с 29.09 по 02.10")
+  @Sql(value = {"classpath:clear-table.sql", "classpath:test-booking-controller.sql"})
   public void notSuccessBookingOnDataBetween2909To0210() {
-
     ClientDto clientDto = ClientDto.builder()
         .id(1)
         .name("Petr")
@@ -161,8 +205,8 @@ class BookingControllerTest {
   @Test
   @DisplayName("Неуспешное бронирование при существующем бронировании\n"
       + "  на эти даты: с с 09.10 по 11.10")
+  @Sql(value = {"classpath:clear-table.sql", "classpath:test-booking-controller.sql"})
   public void notSuccessBookingOnDataBetween0910To1110() {
-
     ClientDto clientDto = ClientDto.builder()
         .id(1)
         .name("Petr")
