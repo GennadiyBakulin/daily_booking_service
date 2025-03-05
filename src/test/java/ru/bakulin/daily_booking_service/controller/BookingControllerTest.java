@@ -31,7 +31,7 @@ import ru.bakulin.daily_booking_service.service.ClientService;
 
 @Slf4j
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
-@Sql(value = "classpath:clear-table.sql", executionPhase = ExecutionPhase.AFTER_TEST_CLASS)
+@Sql(value = "classpath:sql/clear-table.sql", executionPhase = ExecutionPhase.AFTER_TEST_CLASS)
 class BookingControllerTest {
 
   @Autowired
@@ -67,7 +67,7 @@ class BookingControllerTest {
 
   @Test
   @DisplayName("Успешное бронирование, при незаполненности id у клиента")
-  @Sql(value = "classpath:clear-table.sql")
+  @Sql(value = "classpath:sql/clear-table.sql")
   public void successBookingIfClientIdIsNull() {
     ApartmentDto apartment = apartmentService.save(apartmentDto);
 
@@ -109,7 +109,7 @@ class BookingControllerTest {
 
   @Test
   @DisplayName("Успешное бронирование, при указанном id у клиента")
-  @Sql(value = "classpath:clear-table.sql")
+  @Sql(value = "classpath:sql/clear-table.sql")
   public void successBookingIfClientIdIsNotNull() {
     ClientDto client = clientService.save(clientDto);
 
@@ -153,7 +153,7 @@ class BookingControllerTest {
   @Test
   @DisplayName("Неуспешное бронирование при существующем бронировании\n"
       + "  на эти даты: с 05.10 по 06.10")
-  @Sql(value = {"classpath:clear-table.sql", "classpath:test-booking-controller.sql"})
+  @Sql(value = {"classpath:sql/clear-table.sql", "classpath:sql/test-booking-controller.sql"})
   public void notSuccessBookingOnDataBetween0510To0610() {
     ClientDto clientDto = ClientDto.builder()
         .id(1)
@@ -179,7 +179,7 @@ class BookingControllerTest {
   @Test
   @DisplayName("Неуспешное бронирование при существующем бронировании\n"
       + "  на эти даты: с 29.09 по 02.10")
-  @Sql(value = {"classpath:clear-table.sql", "classpath:test-booking-controller.sql"})
+  @Sql(value = {"classpath:sql/clear-table.sql", "classpath:sql/test-booking-controller.sql"})
   public void notSuccessBookingOnDataBetween2909To0210() {
     ClientDto clientDto = ClientDto.builder()
         .id(1)
@@ -205,7 +205,7 @@ class BookingControllerTest {
   @Test
   @DisplayName("Неуспешное бронирование при существующем бронировании\n"
       + "  на эти даты: с с 09.10 по 11.10")
-  @Sql(value = {"classpath:clear-table.sql", "classpath:test-booking-controller.sql"})
+  @Sql(value = {"classpath:sql/clear-table.sql", "classpath:sql/test-booking-controller.sql"})
   public void notSuccessBookingOnDataBetween0910To1110() {
     ClientDto clientDto = ClientDto.builder()
         .id(1)

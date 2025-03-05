@@ -19,7 +19,7 @@ import ru.bakulin.daily_booking_service.entity.ApartmentType;
 
 @Slf4j
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
-@Sql(value = "classpath:clear-table.sql", executionPhase = ExecutionPhase.AFTER_TEST_CLASS)
+@Sql(value = "classpath:sql/clear-table.sql", executionPhase = ExecutionPhase.AFTER_TEST_CLASS)
 class ApartmentControllerTest {
 
   private final RequestSpecification requestSpecification = new RequestSpecBuilder()
@@ -34,7 +34,7 @@ class ApartmentControllerTest {
 
   @Test
   @DisplayName("Успешное сохранение Помещения в БД")
-  @Sql(value = "classpath:clear-table.sql")
+  @Sql(value = "classpath:sql/clear-table.sql")
   public void successSaveApartment() {
     ApartmentDto request = ApartmentDto.builder()
         .city("Barnaul")
