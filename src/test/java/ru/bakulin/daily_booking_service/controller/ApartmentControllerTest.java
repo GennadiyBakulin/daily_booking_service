@@ -48,7 +48,7 @@ class ApartmentControllerTest {
         .post()
         .then()
         .spec(responseSpecification)
-        .statusCode(200)
+        .statusCode(201)
         .extract()
         .body()
         .as(ApartmentDto.class);

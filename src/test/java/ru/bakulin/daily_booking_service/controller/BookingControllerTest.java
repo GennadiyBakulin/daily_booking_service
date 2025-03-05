@@ -91,7 +91,7 @@ class BookingControllerTest {
         .post()
         .then()
         .spec(responseSpecification)
-        .statusCode(200)
+        .statusCode(201)
         .extract()
         .body()
         .as(BookingDtoRs.class);
@@ -135,7 +135,7 @@ class BookingControllerTest {
         .post()
         .then()
         .spec(responseSpecification)
-        .statusCode(200)
+        .statusCode(201)
         .extract()
         .body()
         .as(BookingDtoRs.class);

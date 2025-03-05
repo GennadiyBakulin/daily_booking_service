@@ -23,10 +23,10 @@ public abstract class BookingMapper {
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "client.bookings", ignore = true)
   @Mapping(target = "advert", source = "advertId", qualifiedByName = "getAdvertById")
-  @Mapping(target = "amount", ignore = true)
+  @Mapping(target = "resultPrice", ignore = true)
   public abstract Booking toEntityWithRelation(BookingDtoRq dto);
 
-  @Mapping(source = "amount", target = "resultPrice")
+  @Mapping(source = "resultPrice", target = "resultPrice")
   public abstract BookingDtoRs toDtoRs(Booking booking);
 
   public abstract PageDto<BookingDtoRs> toPageDto(Page<Booking> page);

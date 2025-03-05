@@ -52,7 +52,7 @@ public class BookingServiceImpl implements BookingService {
     checkFreeBookingPeriod(dtoRq);
 
     Booking entity = mapper.toEntityWithRelation(dtoRq);
-    entity.setAmount(getResultPrice(dtoRq));
+    entity.setResultPrice(getResultPrice(dtoRq));
 
     Booking booking = repository.save(entity);
 

@@ -68,7 +68,7 @@ class AdvertControllerTest {
         .post()
         .then()
         .spec(responseSpecification)
-        .statusCode(200)
+        .statusCode(201)
         .extract()
         .body()
         .as(AdvertDtoRs.class);
