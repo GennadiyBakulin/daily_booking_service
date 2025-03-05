@@ -21,7 +21,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
             where advert.apartment_id = (select apartment_id from advert where id = ?))
       select count(*) > 0
       from booked_dates
-      where ? <= booked_dates.end_date and ? >= booked_dates.start_date
+      where booked_dates.end_date >= ? and booked_dates.start_date <= ?
       """, nativeQuery = true)
   boolean existsIntersectionWithBookings(Integer advertId, LocalDate start, LocalDate finish);
 }

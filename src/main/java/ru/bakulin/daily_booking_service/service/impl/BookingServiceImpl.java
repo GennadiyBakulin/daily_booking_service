@@ -49,12 +49,10 @@ public class BookingServiceImpl implements BookingService {
       dtoRq.setClient(clientService.save(client));
     }
 
-    BigDecimal resultPrice = getResultPrice(dtoRq);
-
     checkFreeBookingPeriod(dtoRq);
 
     Booking entity = mapper.toEntityWithRelation(dtoRq);
-    entity.setAmount(resultPrice);
+    entity.setAmount(getResultPrice(dtoRq));
 
     Booking booking = repository.save(entity);
 
