@@ -11,8 +11,7 @@ import lombok.Data;
 @Schema(description = "Сущность Объявление (запрос)")
 public class AdvertDtoRq {
 
-  @Schema(description = "Уникальный идентификатор Объявления",
-      nullable = true, accessMode = Schema.AccessMode.READ_ONLY)
+  @Schema(description = "Уникальный идентификатор Объявления", nullable = true)
   private Integer id;
 
   @Schema(description = "Цена бронирования за ночь", example = "100",

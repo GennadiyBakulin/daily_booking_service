@@ -14,10 +14,10 @@ public class BookingDtoRs {
   @Schema(description = "Уникальный идентификатор Бронирования", example = "0")
   private Integer id;
 
-  @Schema(description = "Сущность Клиент", contentSchema = ClientDto.class)
+  @Schema(description = "Сущность Клиент")
   private ClientDto client;
 
-  @Schema(description = "Сущность Объявление", contentSchema = AdvertDtoRs.class)
+  @Schema(description = "Сущность Объявление")
   private AdvertDtoRs advert;
 
   @JsonProperty("date_start")

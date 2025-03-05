@@ -11,8 +11,7 @@ import ru.bakulin.daily_booking_service.entity.ApartmentType;
 @Schema(description = "Сущность Помещение")
 public class ApartmentDto {
 
-  @Schema(description = "Уникальный идентификатор Помещения", example = "0",
-      nullable = true, accessMode = Schema.AccessMode.READ_ONLY)
+  @Schema(description = "Уникальный идентификатор Помещения", example = "0", nullable = true)
   private Integer id;
 
   @Schema(description = "Наименование города", example = "Барнаул")

@@ -20,7 +20,7 @@ public class AdvertDtoRs {
       allowableValues = {"true", "false"})
   private Boolean isActive;
 
-  @Schema(description = "Сущность Помещения", contentSchema = ApartmentDto.class)
+  @Schema(description = "Сущность Помещения")
   private ApartmentDto apartment;
 
   @Schema(description = "Описание объявления")

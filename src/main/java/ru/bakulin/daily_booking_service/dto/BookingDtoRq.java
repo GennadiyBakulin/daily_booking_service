@@ -12,11 +12,10 @@ import lombok.Data;
 @Schema(description = "Сущность Бронирование (запрос)")
 public class BookingDtoRq {
 
-  @Schema(description = "Уникальный идентификатор Бронирования",
-      nullable = true, accessMode = Schema.AccessMode.READ_ONLY)
+  @Schema(description = "Уникальный идентификатор Бронирования", nullable = true)
   private Integer id;
 
-  @Schema(description = "Сущность Клиент", contentSchema = ClientDto.class)
+  @Schema(description = "Сущность Клиент")
   private ClientDto client;
 
   @JsonProperty("advert_id")
