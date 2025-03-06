@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+  <changeSet id="20250216_init_schema" author="gennadiy bakulin">
+
+    <createTable tableName="apartment" remarks="Таблица Помещение">
+      <column name="id" type="serial" remarks="Уникальный идентификатор">
+        <constraints primaryKey="true" primaryKeyName="apartment_id_pk"/>
+      </column>
+      <column name="city" type="varchar(255)" remarks="Название города">
+        <constraints nullable="false"/>
+      </column>
+      <column name="street" type="varchar(255)" remarks="Название улицы">
+        <constraints nullable="false"/>
+      </column>
+      <column name="house" type="varchar(255)" remarks="Номер дома (может быть корпус)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="apartment_type" type="varchar(255)" remarks="Количество комнат">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="advert" remarks="Таблица Объявление">
+      <column name="id" type="serial" remarks="Уникальный идентификатор">
+        <constraints primaryKey="true" primaryKeyName="advert_id_pk"/>
+      </column>
+      <column name="price" type="numeric(12,2)" remarks="Цена за ночь">
+        <constraints nullable="false"/>
+      </column>
+      <column name="is_active" type="boolean" defaultValueBoolean="true"
+        remarks="Статус (активное или архивное)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="apartment_id" type="int" remarks="Ссылка на таблицу apartment">
+        <constraints nullable="false" referencedTableName="apartment" referencedColumnNames="id"
+          foreignKeyName="apartment_id_fk"/>
+      </column>
+      <column name="description" type="text" remarks="Описание">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="client" remarks="Таблица Клиент">
+      <column name="id" type="serial" remarks="Уникальный идентификатор">
+        <constraints primaryKey="true" primaryKeyName="client_id_pk"/>
+      </column>
+      <column name="name" type="varchar(50)" remarks="Имя клиента">
+        <constraints nullable="false"/>
+      </column>
+      <column name="email" type="varchar(50)" remarks="email клиента (УНИКАЛЬНЫЙ)">
+        <constraints nullable="false" unique="true"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="booking" remarks="Таблица Бронирование">
+      <column name="id" type="serial" remarks="Уникальный идентификатор">
+        <constraints primaryKey="true" primaryKeyName="booking_id_pk"/>
+      </column>
+      <column name="start_date" type="timestamp" remarks="Дата начала бронирования">
+        <constraints nullable="false"/>
+      </column>
+      <column name="end_date" type="timestamp" remarks="Дата окончания бронирования">
+        <constraints nullable="false"/>
+      </column>
+      <column name="client_id" type="int" remarks="Ссылка на таблицу client">
+        <constraints nullable="false" referencedTableName="client" referencedColumnNames="id"
+          foreignKeyName="client_id_fk"/>
+      </column>
+      <column name="advert_id" type="int" remarks="Ссылка на таблицу advert">
+        <constraints nullable="false" referencedTableName="advert" referencedColumnNames="id"
+          foreignKeyName="advert_id_fk"/>
+      </column>
+      <column name="amount" type="numeric(12,2)" remarks="Стоимость бронирования">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+</databaseChangeLog>
