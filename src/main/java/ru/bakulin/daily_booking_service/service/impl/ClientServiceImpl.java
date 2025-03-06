@@ -22,4 +22,9 @@ public class ClientServiceImpl implements ClientService {
 
     return mapper.toDto(client);
   }
+
+  @Override
+  public void delete(Integer id) {
+    repository.deleteById(id);
+  }
 }
